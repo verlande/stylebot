@@ -1,8 +1,8 @@
 {
-  "name": "StyleBot",
+  "name": "stylebot",
   "version": "0.1.0",
   "description": "Discord bot for Style clan",
-  "author": "Scott <.com>",
+  "author": "mummy603",
   "repository": "https://gitlab.com/mummy603/stylebot",
   "license": "UNLICENSED",
   "private": true,
@@ -15,7 +15,7 @@
     "server": "node ./dist/index.js",
     "dev": "cross-env NODE_ENV=development npm-run-all build server",
     "prod": "cross-env NODE_ENV=production npm-run-all build server",
-    "transpile": "babel ./source --out-dir dist --copy-files",
+    "transpile": "babel ./src --out-dir dist --copy-files",
     "clean": "del-cli \"dist/*\" \"!dist/.data\"",
     "watch:dev": "nodemon",
     "test": "jest",
@@ -93,7 +93,7 @@
         "module-resolver",
         {
           "root": [
-            "./source"
+            "./src"
           ]
         }
       ]
@@ -102,7 +102,7 @@
   "nodemonConfig": {
     "exec": "yarn run dev",
     "watch": [
-      "source/*"
+      "src/*"
     ],
     "ignore": [
       "**/__tests__/**",
