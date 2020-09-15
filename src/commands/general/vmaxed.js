@@ -39,7 +39,7 @@ export default class VMaxedCommand extends Command {
     const skills = profile.skillvalues;
 
     const maxedSkills = this.getNumberOf120Skills(skills);
-    const stats = this.calculateSkillStats(skills); console.log(stats);
+    const stats = this.calculateSkillStats(skills);
 
     let str = `**${username}** is __${stats.totalPercentToMax}%__ to 120 max\n`;
 
