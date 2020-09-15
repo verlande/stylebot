@@ -1,0 +1,158 @@
+{
+  "name": "StyleBot",
+  "version": "0.1.0",
+  "description": "Discord bot for Style clan",
+  "author": "Scott <.com>",
+  "repository": "https://gitlab.com/mummy603/stylebot",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "npm run prod",
+    "build": "npm-run-all clean transpile",
+    "server": "node ./dist/index.js",
+    "dev": "cross-env NODE_ENV=development npm-run-all build server",
+    "prod": "cross-env NODE_ENV=production npm-run-all build server",
+    "transpile": "babel ./source --out-dir dist --copy-files",
+    "clean": "del-cli \"dist/*\" \"!dist/.data\"",
+    "watch:dev": "nodemon",
+    "test": "jest",
+    "scrape": "node dates.js"
+  },
+  "dependencies": {
+    "@yarnpkg/pnpify": "^2.0.0-rc.19",
+    "ascii-table": "^0.0.9",
+    "chalk": "^3.0.0",
+    "cheerio": "^1.0.0-rc.3",
+    "chrono-node": "^1.4.4",
+    "class-validator": "^0.11.1",
+    "cron": "^1.8.2",
+    "del-cli": "^3.0.0",
+    "discord-akairo": "^8.0.0",
+    "discord.js": "^12.0.2",
+    "dotenv": "^8.2.0",
+    "find-package-json": "^1.2.0",
+    "got": "^11.6.0",
+    "lodash": "^4.17.15",
+    "luxon": "^1.22.2",
+    "node-cache": "^5.1.0",
+    "node-fetch": "^2.6.0",
+    "reflect-metadata": "^0.1.13",
+    "regenerator-runtime": "^0.13.5",
+    "runescape-api": "^2.1.1",
+    "sequelize": "^5.21.5",
+    "sequelize-typescript": "^1.1.0",
+    "sqlite": "^3.0.6",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-flow": "^7.9.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-inline-json-import": "^0.3.2",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "eslint-plugin-import": "^2.20.2",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5"
+  },
+  "babel": {
+    "sourceType": "module",
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-flow"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ],
+      [
+        "inline-json-import",
+        {}
+      ],
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./source"
+          ]
+        }
+      ]
+    ]
+  },
+  "nodemonConfig": {
+    "exec": "yarn run dev",
+    "watch": [
+      "source/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
+    ]
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "sourceType": "module"
+    },
+    "env": {
+      "browser": false,
+      "node": true
+    },
+    "rules": {
+      "no-param-reassign": "off",
+      "import/first": "off",
+      "import/named": "error",
+      "import/namespace": "error",
+      "import/default": "error",
+      "import/export": "error",
+      "import/extensions": "off",
+      "import/no-unresolved": "off",
+      "import/no-extraneous-dependencies": "off",
+      "import/prefer-default-export": "off",
+      "prefer-promise-reject-errors": "off",
+      "lines-between-class-members": "off",
+      "no-console": "off",
+      "no-debugger": "off",
+      "max-len": [
+        "error",
+        {
+          "code": 120
+        }
+      ],
+      "linebreak-style": [
+        0,
+        "windows"
+      ],
+      "no-underscore-dangle": [
+        0
+      ],
+      "class-methods-use-this": [
+        0
+      ],
+      "no-shadow": [
+        0
+      ]
+    }
+  }
+}
