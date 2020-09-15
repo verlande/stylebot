@@ -8,7 +8,7 @@ export default class SetRSNCommand extends Command {
             args: [
                 {
                     id: 'username',
-                    type: Argument.range('string', 1, 12),
+                    type: Argument.range('string', 1, 13),
                     match: 'content',
                     default: null
                 }
