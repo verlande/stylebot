@@ -37,6 +37,7 @@
     "got": "^11.6.0",
     "lodash": "^4.17.15",
     "luxon": "^1.22.2",
+    "ms": "^2.1.2",
     "node-cache": "^5.1.0",
     "node-fetch": "^2.6.0",
     "reflect-metadata": "^0.1.13",
@@ -44,7 +45,10 @@
     "runescape-api": "^2.1.1",
     "sequelize": "^5.21.5",
     "sequelize-typescript": "^1.1.0",
+    "sharp": "^0.26.0",
     "sqlite": "^3.0.6",
+    "vega": "^5.15.0",
+    "vega-lite": "^4.15.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2"
   },

@@ -28,9 +28,12 @@ export default class HelpCommand extends Command {
                 ${primaryPrefix}help <command>
             `);
             this.handler.categories.forEach((cm, category) => {
-                const dirSize = cm.filter(cmd => cmd.category === cm);
-                let mappedOut = cm.map(x => `\`${x}\``).join(', ');
-                embed.addField(`${dirSize.size} | **${category.toLowerCase()}**`, mappedOut.toLowerCase());
+                if (category !== 'admin') {
+                    const dirSize = cm.filter(cmd => cmd.category === cm);
+                    let mappedOut = cm.map(x => `\`${x}\``)
+                      .join(', ');
+                    embed.addField(`${dirSize.size} | **${category.toLowerCase()}**`, mappedOut.toLowerCase());
+                }
             });
             return message.channel.send(embed);
         } else if (command) {

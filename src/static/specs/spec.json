@@ -1,0 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "A simple radial chart with embedded data.",
+  "width": 300,
+  "height": 350,
+  "padding": {"top": 24, "right": 24, "bottom": 24, "left": 24},
+  "data": {
+    "values": [
+    ]
+  },
+  "layer": [
+    {"mark": {"type": "arc", "outerRadius": 0, "stroke": "#fff"}},
+    {
+      "mark": {"type": "text", "radius": 0, "radiusOffset": 175, "font": "monospace", "fill": "white", "stroke": "black", "strokeWidth": 1.2, "fontWeight": "bold", "fontSize": 24, "align": "center", "angle":  75},
+      "encoding": {"text": {"field": "skill", "type": "nominal"}}
+    }
+  ],
+  "encoding": {
+    "theta": {"field": "xp", "type": "quantitative", "stack": true},
+    "radius": {
+      "field": "xp",
+      "scale": {"type": "sqrt", "zero": true, "rangeMin": 400, "rangeMax": 90, "padding":  50}
+    },
+    "color": {
+      "field": "skill",
+      "type": "nominal",
+      "legend": null,
+      "scale": {
+        "domain": [
+          "Attack",
+          "Defence",
+          "Strength",
+          "Constitution",
+          "Ranged",
+          "Prayer",
+          "Magic",
+          "Cooking",
+          "Woodcutting",
+          "Fletching",
+          "Fishing",
+          "Firemaking",
+          "Crafting",
+          "Smithing",
+          "Mining",
+          "Herblore",
+          "Agility",
+          "Thieving",
+          "Slayer",
+          "Farming",
+          "Runecrafting",
+          "Hunter",
+          "Construction",
+          "Summoning",
+          "Dungeoneering",
+          "Divination",
+          "Invention",
+          "Archaeology"
+        ],
+        "range": [
+        ]
+      }
+    },
+    "order": {"field": "xp", "sort": "descending"}
+  },
+  "view": {"stroke": null}
+}
