@@ -5,12 +5,11 @@ import asciiTable from 'ascii-table';
 import _ from 'lodash';
 import { commaSeperatedNumbers } from 'util/string';
 import sharp from 'sharp';
-import spec from '../../static/specs/spec'
+import spec from '../../static/specs/stats'
 import { getProfile } from 'util/runescape/get-profile';
 import { skillFromId } from 'util/runescape/skill-from-id';
 import * as vl from 'vega-lite';
 import * as vega from 'vega';
-import fs from 'fs';
 
 export default class StatsCommand extends Command {
     constructor() {

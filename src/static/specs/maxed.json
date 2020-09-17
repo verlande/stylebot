@@ -1,0 +1,121 @@
+{"$schema": "https://vega.github.io/schema/vega/v5.0.json",
+  "width": 800,
+  "height": 600,
+  "padding": 0,
+  "config": {"background":  "#fff"},
+  "title": {"text": "", "fontSize": 22, "subtitle": [], "subtitleFontStyle": ["italic"], "subtitleFontSize": 16},
+  "data": [
+    {
+      "name": "table",
+      "values": [
+      ],
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "format(datum.percent/100,'0.2p')",
+          "as": "percentvalue"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": {"data": "table", "field": "skill"},
+      "range": "height", "padding": 0.2
+    },
+    {
+      "name": "xscale",
+      "type": "linear",
+      "domain": {"data": "table","field": "percent"},
+      "range": "width",
+      "round": true,
+      "zero": true, "domainMin": 0, "domainMax": 100
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "table","field": "position"},
+      "range": ["gray", "black"]
+    }
+  ],
+  "axes": [
+    {
+      "orient": "left",
+      "scale": "yscale",
+      "tickSize": 0,
+      "labelPadding": 15,
+      "zindex": 1,
+      "labelFontSize": 18,
+      "labelFont": "monospace"
+    },
+    {
+      "orient": "bottom",
+      "scale": "xscale",
+      "format": "d",
+      "tickSize": 10,
+      "labelFontSize": 18
+    }
+  ],
+  "marks": [
+    {
+      "type": "group",
+      "from": {
+        "facet": {
+          "data": "table",
+          "name": "facet",
+          "groupby": "skill"
+        }
+      },
+      "encode": {
+        "enter": {"y": {"scale": "yscale","field": "skill"}}
+      },
+      "signals": [{"name": "height","update": "bandwidth('yscale')"}],
+      "scales": [
+        {
+          "name": "pos",
+          "type": "band",
+          "range": "height",
+          "domain": {"data": "facet","field": "position"}
+        }
+      ],
+      "marks": [
+        {
+          "name": "bars",
+          "from": {"data": "facet"},
+          "type": "rect",
+          "encode": {
+            "enter": {
+              "y": {"scale": "pos","field": "position"},
+              "height": {"scale": "pos","band": 1},
+              "x": {"scale": "xscale","field": "percent"},
+              "x2": {"scale": "xscale","value": 0.2},
+              "fill": {"scale": "color","field": "position"}
+            }
+          }
+        },
+        {
+          "type": "text",
+          "from": {"data": "bars"},
+          "encode": {
+            "enter": {
+              "x": {"field": "x2","offset": 45 },
+              "y": {
+                "field": "y",
+                "offset": {"field": "height","mult": 0.6}
+              },
+              "fill": {"value": "#000000"},
+              "font": {"value": "monospace"},
+              "fontStyle": {"value": "bold"},
+              "fontSize": {"value": 20},
+              "align": {"value": "right"},
+              "baseline": {"value": "middle"},
+              "text": {"field": "datum.percentvalue"}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
