@@ -117,7 +117,7 @@ export const spotlight = (): String => {
 };
 
 
-export const warbands = (): String => {
+export const warbands = (): Array<Number, Number> => {
   let d = new Date(), diff = new Date(), seconds;
   let day = d.getUTCDate() - d.getUTCDay();
 
@@ -140,22 +140,5 @@ export const warbands = (): String => {
   let minutes = Math.floor((seconds % 3600) / 60);
   seconds = (seconds % 3600) % 60;
 
-  let str = '';
-
-  if (hours > 0 && minutes === 0) {
-    str += `**${hours} hour${hours > 1 ? 's' : ''}**`;
-  }
-
-  if (hours > 0 && minutes > 1) {
-    str += `**${hours} hour${hours > 1 ? 's' : ''}** and **${minutes} minute${minutes > 0 && minutes < 2 ? '' : 's'}**`;
-  }
-
-  if (hours < 1 && minutes > 1) {
-    str += `**${minutes} minute${minutes > 0 && minutes < 2 ? '' : 's'}**`;
-  }
-
-  if (minutes < 1 && hours < 1) {
-    str += '**less than a minute**';
-  }
-  return `Next warbands will start in ${str}`;
+  return [hours, minutes];
 };

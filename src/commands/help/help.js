@@ -37,7 +37,7 @@ export default class HelpCommand extends Command {
             });
             return message.channel.send(embed);
         } else if (command) {
-            const cmd = command; console.log(command.args);
+            const cmd = command;
             return message.channel.send(this.client.dialog(`Help - ${cmd.aliases[0]}`, `
                     **Name**: \`${cmd.aliases[0]}\`
                     **Aliases**: ${`${cmd.aliases.map(x => `\`${x}\``).join(', ') || 'No Alias'}`}

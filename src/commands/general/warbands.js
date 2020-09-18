@@ -6,6 +6,7 @@ export default class WarBandsCommand extends Command {
         super('warbands', {
             aliases: ['warbands', 'wbs'],
             channel: 'guild',
+            tying: true,
             description: {
                 content: 'Displays when warbands starts'
             }
@@ -13,6 +14,24 @@ export default class WarBandsCommand extends Command {
     }
 
     async exec(message: Message): Promise<Message> {
-        return message.channel.send(this.client.dialog('Warbands', warbands()));
+        const hours = warbands()[0], minutes = warbands()[1];
+        let str = '';
+
+        if (hours > 0 && minutes === 0) {
+            str += `**${hours} hour${hours > 1 ? 's' : ''}**`;
+        }
+
+        if (hours > 0 && minutes > 1) {
+            str += `**${hours} hour${hours > 1 ? 's' : ''}** and **${minutes} minute${minutes > 0 && minutes < 2 ? '' : 's'}**`;
+        }
+
+        if (hours < 1 && minutes > 1) {
+            str += `**${minutes} minute${minutes > 0 && minutes < 2 ? '' : 's'}**`;
+        }
+
+        if (minutes < 1 && hours < 1) {
+            str += '**less than a minute**';
+        }
+        return message.channel.send(this.client.dialog('Warbands', `Starts in ${str}`));
     }
 }
