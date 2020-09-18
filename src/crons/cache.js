@@ -12,7 +12,7 @@ export default class CacheCron extends CronModule {
   load(client: StyleClient) {
     const job = new CronOptions();
     job.id = `${Constants.Modules.CRON_CACHE}-${Math.random().toString(36).slice(2)}`;
-    job.cronTime = '0 */1 * * *';
+    job.cronTime = '55 */1 * * *';
     job.onTick = () => this.exec(job.id);
     job.onComplete = null;
     job.start = true;
