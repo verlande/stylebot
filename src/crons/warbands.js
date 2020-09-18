@@ -18,7 +18,7 @@ export default class WarbandsCron extends CronModule {
     job.start = true;
     job.timezone = 'Etc/GMT';
     job.context = null;
-    job.runOnInit = true;
+    job.runOnInit = false;
     this.add(job);
   }
 

@@ -5,7 +5,7 @@ import asciiTable from 'ascii-table';
 import _ from 'lodash';
 import { commaSeperatedNumbers } from 'util/string';
 import sharp from 'sharp';
-import spec from '../../static/specs/stats'
+import spec from '../../static/specs/stats';
 import { getProfile } from 'util/runescape/get-profile';
 import { skillFromId } from 'util/runescape/skill-from-id';
 import * as vl from 'vega-lite';
@@ -18,7 +18,7 @@ export default class StatsCommand extends Command {
             args: [
                 {
                     id: 'username',
-                    typing: Argument.range('string', 1, 12),
+                    typing: Argument.range('string', 1, 13),
                     match: 'rest',
                     default: null
                 },
@@ -44,6 +44,7 @@ export default class StatsCommand extends Command {
 
     async exec(message: Message, { username, pie }: args): Promise<Message> {
         username = username ? username : await this.userDb.getRSN(message.author.id);
+
         if (pie) {
             const data = await getProfile(username);
             if (data.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.errorDialog('Error', 'Private profile'));

@@ -4,7 +4,6 @@ import { getProfile } from 'util/runescape/get-profile';
 import { TOTAL_XP_AT_ALL_120, xpUntil120, SKILL_COUNT } from 'util/runescape/xp';
 import { skillFromId } from 'util/runescape/skill-from-id';
 import { commaSeperatedNumbers } from 'util/string'
-import { getSkillCurve } from '../../util/runescape/skillcurves';
 import * as vega from 'vega';
 import sharp from 'sharp';
 import spec from '../../static/specs/maxed'
@@ -36,7 +35,7 @@ export default class VMaxedCommand extends Command {
     })
   }
 
-  before(message: Message): any {
+  before() {
     this.userDb = this.client.db.User;
   }
 

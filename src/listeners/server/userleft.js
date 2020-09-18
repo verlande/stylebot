@@ -11,7 +11,7 @@ export default class UserLeft extends Listener {
   }
 
   async exec(member: GuildMember) {
-    this.client.logger.info(`[${this.event.toUpperCase()}] ${member.user.tag} has joined ${member.guild.name} (ID: ${member.guild.id})`);
+    this.client.logger.info(`[${this.event.toUpperCase()}] ${member.user.tag} has left ${member.guild.name} (ID: ${member.guild.id})`);
 
     try {
       const joinType = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.joinType');

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "height": 550,
+  "padding": {"bottom":  -10},
+  "width": {
+    "step": 35
+  },
+  "data": {
+    "values": []
+  },
+  "transform": [
+  ],
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "skill",
+      "type": "ordinal",
+      "title": null,
+      "axis": {
+        "labelFontSize": 17,
+        "labelAngle": 60,
+        "labelFont": "monospace",
+        "labelPadding": 5
+      }
+    },
+    "y": {
+      "aggregate": "max",
+      "field": "value",
+      "stack": false,
+      "title": null,
+      "axis": {
+        "labelFontSize": 14,
+        "labelFont": "monospace",
+        "format": "s"
+      }
+    },
+    "color": {
+      "field": "username",
+      "scale": {
+        "range": [
+          "pink",
+          "black"
+        ]
+      },
+      "title": null,
+      "legend": {
+        "symbolSize": 280,
+        "labelFontSize": 16,
+        "labelFontWeight": "bold",
+        "labelFont": "monospace"
+      }
+    },
+    "opacity": {
+      "value": 0.7
+    }
+  }
+}
