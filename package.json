@@ -40,6 +40,7 @@
     "ms": "^2.1.2",
     "node-cache": "^5.1.0",
     "node-fetch": "^2.6.0",
+    "promise": "^8.1.0",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "^0.13.5",
     "runescape-api": "^2.1.1",

@@ -1,4 +1,4 @@
-import { GuildMember } from 'discord.js';
+import { GuildMember, Message } from 'discord.js';
 import { Listener } from 'discord-akairo';
 
 
@@ -10,8 +10,14 @@ export default class UserJoin extends Listener {
         })
     }
 
-    async exec(member: GuildMember) {
-        this.client.logger.info(`[${this.event.toUpperCase()}] ${member.user.tag} has joined ${member.guild.name} (ID: ${member.guild.id})`);
+    async exec(member: GuildMember): Promise<Message> {
+        this.client.logger.info(`${member.user.tag} has joined ${member.guild.name} (ID: ${member.guild.id})`, {
+            event: this.event.toUpperCase(),
+            userId: member.user.id,
+            username: member.user.tag,
+            guildName: member.guild.name,
+            guildId: member.guild.id
+        });
 
         try {
             const joinType = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.joinType');

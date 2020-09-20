@@ -10,6 +10,6 @@ export default class CronFinishedListener extends Listener {
     }
 
     exec(id) {
-        this.client.logger.info(`CronJob '${id}' finished running`);
+        this.client.logger.info(`CronJob '${id}' finished running`, { event: 'CRONJOB' });
     }
 }

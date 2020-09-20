@@ -1,0 +1,186 @@
+{
+  "player": {
+    "urls": {
+      "playerDetails": "http://services.runescape.com/m=website-data/playerDetails.ws?membership=true&names=",
+      "profile": "https://apps.runescape.com/runemetrics/profile/profile?activities=20&user="
+    },
+    "hiscores": {
+      "urls": {
+        "normal": "http://services.runescape.com/m=hiscore/index_lite.ws?player=",
+        "ironman": "http://services.runescape.com/m=hiscore_ironman/index_lite.ws?player=",
+        "hardcore": "http://services.runescape.com/m=hiscore_hardcore_ironman/index_lite.ws?player="
+      },
+      "skills": [
+        "Overall",
+        "Attack",
+        "Defence",
+        "Strength",
+        "Hitpoints",
+        "Ranged",
+        "Prayer",
+        "Magic",
+        "Cooking",
+        "Woodcutting",
+        "Fletching",
+        "Fishing",
+        "Firemaking",
+        "Crafting",
+        "Smithing",
+        "Mining",
+        "Herblore",
+        "Agility",
+        "Thieving",
+        "Slayer",
+        "Farming",
+        "Runecrafting",
+        "Hunter",
+        "Construction",
+        "Summoning",
+        "Dungeoneering",
+        "Divination",
+        "Invention",
+        "Archaeology"
+      ],
+      "activities": [
+        "Bounty Hunter",
+        "B.H. Rogues",
+        "Dominion Tower",
+        "The Crucible",
+        "Castle Wars games",
+        "B.A. Attackers",
+        "B.A. Defenders",
+        "B.A. Collectors",
+        "B.A. Healers",
+        "Duel Tournament",
+        "Mobilising Armies",
+        "Conquest",
+        "Fist of Guthix",
+        "GG: Athletics",
+        "GG: Resource Race",
+        "WE2: Armadyl Lifetime Contribution",
+        "WE2: Bandos Lifetime Contribution",
+        "WE2: Armadyl PvP kills",
+        "WE2: Bandos PvP kills",
+        "Heist Guard Level",
+        "Heist Robber Level",
+        "CFP: 5 game average",
+        "AF15: Cow Tipping",
+        "AF15: Rats killed after the miniquest",  
+        "RuneScore",
+        "Easy clue scrolls",
+        "Medium clue scrolls",
+        "Hard clue scrolls",
+        "Elite clue scrolls",
+        "Master clue scrolls"
+      ],
+      "skillIds": [
+        {"id": 0, "name":"Attack"},
+        {"id": 1, "name": "Defence"},
+        {"id": 2, "name": "Strength"},
+        {"id": 3, "name": "Hitpoints"},
+        {"id": 4, "name": "Ranged"},
+        {"id": 5, "name": "Prayer"},
+        {"id": 6, "name": "Magic"},
+        {"id": 7, "name": "Cooking"},
+        {"id": 8, "name": "Woodcutting"},
+        {"id": 9, "name": "Fletching"},
+        {"id": 10, "name": "Fishing"},
+        {"id": 11, "name": "Firemaking"},
+        {"id": 12, "name": "Crafting"},
+        {"id": 13, "name": "Smithing"},
+        {"id": 14, "name": "Mining"},
+        {"id": 15, "name": "Herblore"},
+        {"id": 16, "name": "Agility"},
+        {"id": 17, "name": "Thieving"},
+        {"id": 18, "name": "Slayer"},
+        {"id": 19, "name": "Farming"},
+        {"id": 20, "name": "Runecrafting"},
+        {"id": 21, "name": "Hunter"},
+        {"id": 22, "name": "Construction"},
+        {"id": 23, "name": "Summoning"},
+        {"id": 24, "name": "Dungeoneering"},
+        {"id": 25, "name": "Divination"},
+        {"id": 26, "name": "Invention"}
+      ]
+    },
+    "events": {
+      "urls": {
+        "adventures": "http://services.runescape.com/m=adventurers-log/c=tB0ermS1flc/rssfeed?searchName="
+      }
+    }
+  },
+  "clan": {
+    "urls": {
+      "members": "http://services.runescape.com/m=clan-hiscores/members_lite.ws?clanName="
+    }
+  },
+  "bestiary": {
+    "urls": {
+      "beast": "http://services.runescape.com/m=itemdb_rs/bestiary/beastData.json?beastid=",
+      "beastTerm": "http://services.runescape.com/m=itemdb_rs/bestiary/beastSearch.json?term=",
+      "beastLetter": "http://services.runescape.com/m=itemdb_rs/bestiary/bestiaryNames.json?letter=",
+      "areas": "http://services.runescape.com/m=itemdb_rs/bestiary/areaNames.json",
+      "beastArea": "http://services.runescape.com/m=itemdb_rs/bestiary/areaBeasts.json?identifier=",
+      "slayerCats": "http://services.runescape.com/m=itemdb_rs/bestiary/bestiary/slayerCatNames.json",
+      "beastSlayer": "http://services.runescape.com/m=itemdb_rs/bestiary/slayerBeasts.json?identifier=",
+      "weaknesses": "http://services.runescape.com/m=itemdb_rs/bestiary/bestiary/weaknessNames.json",
+      "beastWeekend": "http://services.runescape.com/m=itemdb_rs/bestiary/weaknessBeasts.json?identifier=",
+      "beastLevel": "http://services.runescape.com/m=itemdb_rs/bestiary/levelGroup.json?identifier="
+    }
+  },
+  "ge": {
+    "urls": {
+      "category": "http://services.runescape.com/m=itemdb_rs/api/catalogue/category.json?category=",
+      "categoryPrice": "http://services.runescape.com/m=itemdb_rs/api/catalogue/items.json?",
+      "graph": "http://services.runescape.com/m=itemdb_rs/api/graph/",
+      "information": "http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=",
+      "rscript": "http://rscript.org/lookup.php?type=ge&search=",
+      "wiki": "https://runescape.wiki/w/Module:Exchange/"
+    },
+    "categories": [
+      "Miscellaneous",
+      "Ammo",
+      "Arrows",
+      "Bolts",
+      "Construction materials",
+      "Construction projects",
+      "Cooking ingredients",
+      "Costumes",
+      "Crafting materials",
+      "Familiars",
+      "Farming produce",
+      "Fletching materials",
+      "Food and drink",
+      "Herblore materials",
+      "Hunting equipment",
+      "Hunting produce",
+      "Jewellery",
+      "Mage armour",
+      "Mage weapons",
+      "Melee armour - low level",
+      "Melee armour - mid level",
+      "Melee armour - high level",
+      "Melee weapons - low level",
+      "Melee weapons - mid level",
+      "Melee weapons - high level",
+      "Mining and smithing",
+      "Potions",
+      "Prayer armour",
+      "Prayer materials",
+      "Range armour",
+      "Range weapons",
+      "Runecrafting",
+      "Runes, Spells and Teleports",
+      "Seeds",
+      "Summoning scrolls",
+      "Tools and containers",
+      "Woodcutting product",
+      "Pocket items"
+    ]
+  },
+  "news": {
+    "urls": {
+      "rss": "http://services.runescape.com/m=news/latest_news.rss"
+    }
+  }
+}

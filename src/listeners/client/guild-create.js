@@ -9,8 +9,14 @@ export default class ClientGuildCreateListener extends Listener {
     });
   }
 
-  async exec(server: Guild) {
-    this.client.logger.info(`[${this.event.toUpperCase()}] Connected to server ${server.name} (ID: ${server.id})`);
+  async exec(guild: Guild) {
+    this.client.logger.info(`Connected to server ${guild.name} (ID: ${guild.id})`, {
+      event: this.event.toUpperCase(),
+      guildName: guild.name,
+      guildId: guild.id,
+      guildOwnerId: guild.ownerID,
+      guildOwnerTag: guild.owner.user.tag
+    });
     try {
       const defaults = this.client.db.Server.mapGuild(server);
       await this.client.db.Server.findOrCreate({ where: { id: defaults.id }, defaults });

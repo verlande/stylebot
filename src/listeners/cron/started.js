@@ -10,6 +10,6 @@ export default class CronStartedListener extends Listener {
     }
 
     exec(id) {
-        this.client.logger.info(`CronJob '${id}' started running`);
+        this.client.logger.info(`${id} started running`, { event: 'CRONJOB' });
     }
 }

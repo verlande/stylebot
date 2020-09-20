@@ -11,6 +11,6 @@ export default class CronCreatedListener extends Listener {
   }
 
   exec(id, cronTime) {
-    this.client.logger.info(`CronJob '${id}' created with cronTime ${cronTime}`);
+    this.client.logger.info(`'${id}' created with cronTime ${cronTime}`, { event: 'CRONJOB' });
   }
 }

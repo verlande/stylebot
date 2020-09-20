@@ -1,9 +1,13 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-  "height": 550,
+  "title": {"text": ["", ""],
+    "fontSize": 16,
+    "font": "monospace"
+  },
+  "height": 570,
   "padding": {"bottom":  -10},
   "width": {
-    "step": 35
+    "step": 45
   },
   "data": {
     "values": []

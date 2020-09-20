@@ -6,6 +6,7 @@ import sharp from 'sharp';
 import { MessageAttachment } from 'discord.js';
 import * as vl from 'vega-lite';
 import spec from '../../static/specs/compare';
+import { commaSeperatedNumbers } from '../../util/string';
 
 export default class CompareCommand extends Command {
 
@@ -35,6 +36,7 @@ export default class CompareCommand extends Command {
 
     let profile = await getProfile(usernames[0]);
     let profile2 = await getProfile(usernames[1]);
+    const totalXp = profile.totalxp, totalXp2 = profile2.totalxp;
 
     if (profile.error === 'NO_PROFILE' || profile2.error === 'NO_PROFILE') {
       return message.channel.send(this.client.errorDialog('Error', 'One of the users not found'));
@@ -48,13 +50,15 @@ export default class CompareCommand extends Command {
 
     profile.map((x, i) => {
       data.push({
-        skill: skillFromId(profile[i].id).name, username: usernames[0].toUpperCase(), position: 0, value: profile[i].xp / 10,
+        skill: skillFromId(profile[i].id).name, username: `${usernames[0].toUpperCase()}`, position: 0, value: profile[i].xp / 10,
       });
       data.push({
-        skill: skillFromId(profile2[i].id).name, username: usernames[1].toUpperCase(), position: 1, value: profile2[i].xp / 10,
+        skill: skillFromId(profile2[i].id).name, username: `${usernames[1].toUpperCase()}`, position: 1, value: profile2[i].xp / 10,
       });
     });
 
+    spec.title.text[0] = `${usernames[0].toUpperCase()} (${commaSeperatedNumbers(totalXp)} XP)`;
+    spec.title.text[1] = `${usernames[1].toUpperCase()} (${commaSeperatedNumbers(totalXp2)} XP)`;
     spec.data.values = data;
     const vegaSpec = vl.compile(spec).spec;
     const view = new vega.View(vega.parse(vegaSpec), { renderer: 'none' });

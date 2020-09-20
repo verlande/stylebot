@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import RotateFile from 'winston-daily-rotate-file';
 
 export default class Logger {
-    logger: Any = createLogger({
+    logger: any = createLogger({
         format: format.combine(
             format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
             format.json({ space: 0 }),
