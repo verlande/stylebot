@@ -50,7 +50,7 @@ export default class GrandExchangeCommand extends Command {
       return msg.then((m) => setTimeout(() => { m.delete() }, 6000));
     }
 
-    const extract = await this.getExtract(itemData.item);
+    const extract = await this.getExtract(itemData.information.item.name);
     const graphData = await this.getGraph(itemData.itemId);
     let str = '';
 
@@ -65,7 +65,7 @@ export default class GrandExchangeCommand extends Command {
     if (change.day180.trend === 'negative') str += `180D ${change.day180.change} ${this.arrowDown}\n`;
     if (change.day180.trend === 'neutral') str += `180D N/C\n`;
 
-    spec.title.text = itemData.item.toUpperCase();
+    spec.title.text = itemData.information.item.name.toUpperCase();
     spec.data.values = graphData;
 
     const vegaSpec = vl.compile(spec).spec;
@@ -80,7 +80,7 @@ export default class GrandExchangeCommand extends Command {
 
       msg.then((m) => setTimeout(() => { m.delete(); }, 1000));
 
-      return message.channel.send(this.client.dialog(itemData.item, extract.extract)
+      return message.channel.send(this.client.dialog(itemData.information.item.name, extract.extract)
         .addFields(
           {
             name: 'Price',

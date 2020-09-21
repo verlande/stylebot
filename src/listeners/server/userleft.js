@@ -25,7 +25,7 @@ export default class UserLeft extends Listener {
         const joinMessage = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.leaveMessage');
         const welcomeChannel = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.joinLeaveChannel');
         const channel = await member.guild.channels.cache.get(welcomeChannel);
-        return await channel.send(joinMessage.replace(/%user%/gi, `**${member.user.tag}**`));
+        return await channel.send(joinMessage.replace(/%user%/gi, `<@${member.user.id}>`));
       }
     }
     catch (e) {
