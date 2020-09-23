@@ -1,15 +1,14 @@
-'use strict';
 
-var API = require('./api');
+const API = require('./api');
 
-var rs = new API('rs');
+const rs = new API('rs');
 
-var RuneScapeAPI = {};
+const RuneScapeAPI = {};
 
 Object.defineProperty(RuneScapeAPI, 'rs', {
-    get: function() {
-        return rs;
-    }
+  get() {
+    return rs;
+  },
 });
 
 module.exports = RuneScapeAPI;

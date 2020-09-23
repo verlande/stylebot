@@ -1,8 +1,9 @@
-import {Command, Message} from 'discord-akairo';
-import {Permissions} from 'discord.js';
-import {get, set} from 'lodash';
+import { Command, Message } from 'discord-akairo';
+import { Permissions } from 'discord.js';
+import { get, set } from 'lodash';
 
 export default class SettingsCommand extends Command {
+
     settings: any;
 
     constructor() {
@@ -21,26 +22,26 @@ export default class SettingsCommand extends Command {
         ratelimit: 1,
         channel: 'text',
         userPermissions: [
-          Permissions.FLAGS.MANAGE_GUILD
+          Permissions.FLAGS.MANAGE_GUILD,
         ],
       });
     }
 
     * args() {
-
       const getType = (property) => {
         switch (property) {
+
           case 'admin.botChannel':
           case 'admin.joinLeaveChannel':
           case 'admin.pingsChannel':
             return 'textChannel';
           case 'timezone':
           case 'admin.joinType':
-              return ['dm', 'guild'];
+            return ['dm', 'guild'];
           case 'admin.joinMessage':
           case 'admin.leaveMessage':
             return 'string';
-/*          case 'meeting.reminders':
+            /*          case 'meeting.reminders':
           case 'jftCron.enabled':
             return ['true', 'false'];
           case 'jftCron.channels':
@@ -50,9 +51,10 @@ export default class SettingsCommand extends Command {
                   if (channel)
                       return channel.id;
               }).filter(c => c !== undefined);
-            };*/
+            }; */
           default:
-            return 'string'
+            return 'string';
+
         }
       };
 
@@ -76,8 +78,7 @@ export default class SettingsCommand extends Command {
 
     async exec(message: Message, { property, value }: args) {
       try {
-        if (value && typeof value === 'object' && value.type === 'text')
-          value = value.id;
+        if (value && typeof value === 'object' && value.type === 'text') value = value.id;
 
         if (!property) {
           return this.displayAll(message);
@@ -121,10 +122,10 @@ export default class SettingsCommand extends Command {
             ],
           ),
         );
-      } catch(e) {
+      } catch (e) {
         return this.displayError(
           message,
-          e
+          e,
         );
       }
     }
@@ -136,7 +137,7 @@ export default class SettingsCommand extends Command {
 
       return this.displayError(
         message,
-        `The setting \`${property}\` doesn't exist, perhaps you typed it incorrectly?`
+        `The setting \`${property}\` doesn't exist, perhaps you typed it incorrectly?`,
       );
     }
 
@@ -144,7 +145,7 @@ export default class SettingsCommand extends Command {
       try {
         await this.db.setSettingForServer(message.guild.id, property, value);
         return message.channel.send(`The setting \`${property}\` has been updated, it is now \`${value}\`.`);
-      } catch(e) {
+      } catch (e) {
         return this.displayError(
           message,
           e.message,
@@ -152,12 +153,13 @@ export default class SettingsCommand extends Command {
       }
     }
 
-    displayError(message, content: String = "Unknown error.") {
+    displayError(message, content: String = 'Unknown error.') {
       return message.channel.send(
         this.client.errorDialog(
           'Error',
-          content
-        )
+          content,
+        ),
       );
     }
+
 }

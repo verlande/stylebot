@@ -12,7 +12,8 @@ export default class ServerSettingsUpdatedListener extends Listener {
 
   exec(server, property, value) {
     this.client.logger.info(`Setting '${property}' for server ${server} changed to '${value}'`, {
-      event: this.event.toUpperCase()
+      event: this.event.toUpperCase(),
     });
   }
+
 }

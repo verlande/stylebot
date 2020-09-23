@@ -1,7 +1,8 @@
 import DatabaseService from 'services/database/DatabaseService';
-import {AkairoError} from 'discord-akairo';
+import { AkairoError } from 'discord-akairo';
 
 export default class ServerDatabaseService extends DatabaseService {
+
   async getServer(id: String, options: object = {}) {
     try {
       return await this.findById(id, options);
@@ -27,4 +28,5 @@ export default class ServerDatabaseService extends DatabaseService {
       region: guild.region,
     };
   }
+
 }

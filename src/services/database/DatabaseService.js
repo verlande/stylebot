@@ -3,6 +3,7 @@ import { validateOrReject } from 'class-validator';
 import EventEmitter from 'events';
 
 export default class DatabaseService extends EventEmitter {
+
     provider: T;
     db: Model;
 
@@ -47,4 +48,5 @@ export default class DatabaseService extends EventEmitter {
     truncate = async (...args) => this.db.truncate(...args);
     update = async (...args) => this.db.update(...args);
     upsert = async (...args) => this.db.upsert(...args);
+
 }

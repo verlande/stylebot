@@ -14,6 +14,7 @@ export const getMeetingsFromVirtualNA = async () => {
   // Converts Virtual NA weekday to Luxon Weekday.
   const convertWeekday = (day: int) => {
     switch (day) {
+
       case 1:
         return 7;
       case 2:
@@ -30,11 +31,13 @@ export const getMeetingsFromVirtualNA = async () => {
         return 6;
       default:
         break;
+
     }
   };
 
   const getTimezoneForSourceService = (sourceService: int) => {
     switch (sourceService) {
+
       // Australia
       case 1:
       case 13:
@@ -53,6 +56,7 @@ export const getMeetingsFromVirtualNA = async () => {
         return 'Europe/Rome';
       default:
         return 'GMT';
+
     }
   };
 
@@ -76,37 +80,33 @@ export const getMeetingsFromVirtualNA = async () => {
   return meetings;
 };
 
-export const getDatesForTz = (start: DateTime, duration: Duration) => {
+export const getDatesForTz = (start: DateTime, duration: Duration) => ({
+  start: start.toFormat('h:mma'),
+  end: start.plus(duration).toFormat('h:mma'),
+  offset: start.offsetNameShort,
+});
+
+export const getFields = (meetings: Array<object>, date: DateTime = DateTime.local()) => meetings.map((m) => {
+  const meeting = m.get();
+  const { offset } = date;
+
+  const [sh, sm] = meeting.start.split(':').map((t) => parseInt(t, 10));
+  const [dh, dm] = meeting.duration.split(':').map((t) => parseInt(t, 10));
+
+  const duration = Duration.fromObject({ hours: dh, minutes: dm });
+
+  const utc = date.set({ hour: sh, minute: sm });
+  const start = utc.plus({ minutes: offset });
+
+  const times = getDatesForTz(start, duration);
+
   return {
-    start: start.toFormat('h:mma'),
-    end: start.plus(duration).toFormat('h:mma'),
-    offset: start.offsetNameShort,
+    name: `**${meeting.name}**`,
+    value: [
+      `_${times.start}-${times.end} ${date.offsetNameShort}_`,
+      `[Click here to join](${meeting.location})`,
+      `${(meeting.locationDescription ? `(${meeting.locationDescription})` : '')}`,
+      ' ',
+    ],
   };
-}
-
-export const getFields = (meetings: Array < object >, date: DateTime = DateTime.local()) => {
-  return meetings.map(m => {
-    const meeting = m.get();
-    const { offset } = date;
-
-    const [sh, sm] = meeting.start.split(':').map((t) => parseInt(t, 10));
-    const [dh, dm] = meeting.duration.split(':').map((t) => parseInt(t, 10));
-
-    const duration = Duration.fromObject({ hours: dh, minutes: dm });
-
-    const utc = date.set({ hour: sh, minute: sm });
-    const start = utc.plus({ minutes: offset });
-
-    const times = getDatesForTz(start, duration);
-
-    return {
-      name: `**${meeting.name}**`,
-      value: [
-        `_${times.start}-${times.end} ${date.offsetNameShort}_`,
-        '[Click here to join](' + meeting.location + ')',
-        `${(meeting.locationDescription ? `(${meeting.locationDescription})` : '')}`,
-        ` `,
-      ],
-    };
-  });
-}
+});

@@ -1,51 +1,53 @@
 import { Command } from 'discord-akairo';
 
 export default class HelpCommand extends Command {
-    constructor() {
-        super('help', {
-            aliases: ['help', 'h', 'commands'],
-            args: [{
-                id: 'command', type: 'commandAlias', match: 'content', default: null
-            }],
-            description: {
-                usage: 'help <command>',
-                examples: ['help', 'comands', 'h'],
-                content: 'Display\'s the commands of the bot'
-            },
-            ratelimit: 1
-        });
-    }
 
-    async exec(message, {command}) {
-        const { prefix } = this.client.handlers.command;
-        const primaryPrefix = Array.isArray(prefix) ? prefix[0] : prefix;
+  constructor() {
+    super('help', {
+      aliases: ['help', 'h', 'commands'],
+      args: [{
+        id: 'command', type: 'commandAlias', match: 'content', default: null,
+      }],
+      description: {
+        usage: 'help <command>',
+        examples: ['help', 'comands', 'h'],
+        content: 'Display\'s the commands of the bot',
+      },
+      ratelimit: 1,
+    });
+  }
 
-        //let inGuild = message.guild ? `This server's prefix is \`${Array.isArray(prefix) ? prefix.join(' or ') : primaryPrefix}\`` : '', `${primaryPrefix}help [command name]`;
+  async exec(message, { command }) {
+    const { prefix } = this.client.handlers.command;
+    const primaryPrefix = Array.isArray(prefix) ? prefix[0] : prefix;
 
-        if (!command) {
-            const embed = this.client.dialog('Help Menu', `
+    // let inGuild = message.guild ? `This server's prefix is \`${Array.isArray(prefix) ? prefix.join(' or ') : primaryPrefix}\`` : '', `${primaryPrefix}help [command name]`;
+
+    if (!command) {
+      const embed = this.client.dialog('Help Menu', `
                 ${message.guild ? `Prefix is \`${Array.isArray(prefix) ? prefix.join(' or ') : primaryPrefix}\`` : ''}
                 ${primaryPrefix}help <command>
             `);
-            this.handler.categories.forEach((cm, category) => {
-                if (category !== 'admin') {
-                    const dirSize = cm.filter(cmd => cmd.category === cm);
-                    let mappedOut = cm.map(x => `\`${x}\``)
-                      .join(', ');
-                    embed.addField(`${dirSize.size} | **${category.toLowerCase()}**`, mappedOut.toLowerCase());
-                }
-            });
-            return message.channel.send(embed);
-        } else if (command) {
-            const cmd = command;
-            return message.channel.send(this.client.dialog(`Help - ${cmd.aliases[0]}`, `
+      this.handler.categories.forEach((cm, category) => {
+        if (category !== 'admin') {
+          const dirSize = cm.filter((cmd) => cmd.category === cm);
+          const mappedOut = cm.map((x) => `\`${x}\``)
+            .join(', ');
+          embed.addField(`${dirSize.size} | **${category.toLowerCase()}**`, mappedOut.toLowerCase());
+        }
+      });
+      return message.channel.send(embed);
+    } if (command) {
+      const cmd = command;
+      return message.channel.send(this.client.dialog(`Help - ${cmd.aliases[0]}`, `
                     **Name**: \`${cmd.aliases[0]}\`
-                    **Aliases**: ${`${cmd.aliases.map(x => `\`${x}\``).join(', ') || 'No Alias'}`}
-                    **Cooldown**: \`${cmd.cooldown / 1000 + 's' || 0}\`
+                    **Aliases**: ${`${cmd.aliases.map((x) => `\`${x}\``).join(', ') || 'No Alias'}`}
+                    **Cooldown**: \`${`${cmd.cooldown / 1000}s` || 0}\`
                     **Description**: ${cmd.description.content || 'None'}
                     **Usage**: \`${cmd.description.usage || ''}\``).setFooter('Synxtax: [required] | <optional>'));
-        }
     }
+  }
+
 }
 
 

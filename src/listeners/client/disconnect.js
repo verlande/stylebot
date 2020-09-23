@@ -1,6 +1,7 @@
 import { Listener } from 'discord-akairo';
 
 export default class ClientDisconnectListener extends Listener {
+
   constructor() {
     super('client:disconnect', {
       emitter: 'client',
@@ -12,4 +13,5 @@ export default class ClientDisconnectListener extends Listener {
     this.client.logger.warn(info);
     process.exit(1);
   }
+
 }

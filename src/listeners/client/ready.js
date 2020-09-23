@@ -1,6 +1,7 @@
 import { Listener } from 'discord-akairo';
 
 export default class ClientReadyListener extends Listener {
+
   constructor() {
     super('client:ready', {
       emitter: 'client',
@@ -31,4 +32,5 @@ export default class ClientReadyListener extends Listener {
       this.client.logger.warn(e);
     }
   }
+
 }

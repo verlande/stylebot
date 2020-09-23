@@ -5,6 +5,7 @@ import { prettifyMs } from 'util/number';
 import finder from 'find-package-json';
 
 export default class InfoCommand extends Command {
+
   constructor() {
     super('info', {
       aliases: ['info'],
@@ -44,7 +45,8 @@ export default class InfoCommand extends Command {
           `**NodeJS**: ${process.version}`,
           `**OS**: ${os.type()} ${os.arch()}`,
         ], false)
-          .setFooter('Created by DADDY COOL#7091 (mummy603)', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/flag-for-united-kingdom_1f1ec-1f1e7.png'),
+        .setFooter('Created by DADDY COOL#7091 (mummy603)', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/flag-for-united-kingdom_1f1ec-1f1e7.png'),
     );
   }
+
 }

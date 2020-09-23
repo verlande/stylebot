@@ -2,6 +2,7 @@ import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
 
 export default class ClientGuildCreateListener extends Listener {
+
   constructor() {
     super('client:guildCreate', {
       emitter: 'client',
@@ -15,14 +16,15 @@ export default class ClientGuildCreateListener extends Listener {
       guildName: guild.name,
       guildId: guild.id,
       guildOwnerId: guild.ownerID,
-      guildOwnerTag: guild.owner.user.tag
+      guildOwnerTag: guild.owner.user.tag,
     });
     try {
-      const defaults = this.client.db.Server.mapGuild(server);
+      const defaults = this.client.db.Server.mapGuild(guild);
       await this.client.db.Server.findOrCreate({ where: { id: defaults.id }, defaults });
       await this.client.db.ServerSettings.findOrCreate({ where: { id: defaults.id }, defaults });
     } catch (e) {
       this.client.logger.warn(e);
     }
   }
+
 }

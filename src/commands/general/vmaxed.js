@@ -3,13 +3,14 @@ import { hiscores } from 'runescape-api';
 import { getProfile } from 'util/runescape/get-profile';
 import { TOTAL_XP_AT_ALL_120, xpUntil120, SKILL_COUNT } from 'util/runescape/xp';
 import { skillFromId } from 'util/runescape/skill-from-id';
-import { commaSeperatedNumbers } from 'util/string'
+import { commaSeperatedNumbers } from 'util/string';
 import * as vega from 'vega';
 import sharp from 'sharp';
-import spec from '../../static/specs/maxed'
-import { MessageAttachment } from "discord.js";
+import { MessageAttachment } from 'discord.js';
+import spec from '../../static/specs/maxed';
 
 export default class VMaxedCommand extends Command {
+
   constructor() {
     super('vmaxed', {
       aliases: ['vmaxed'],
@@ -20,19 +21,19 @@ export default class VMaxedCommand extends Command {
           id: 'username',
           type: Argument.range('string', 0, 13),
           match: 'rest',
-          default: null
+          default: null,
         },
         {
           id: 'chart',
           match: 'flag',
-          flag: '--chart'
-        }
+          flag: '--chart',
+        },
       ],
       description: {
         content: 'Displays remaining to 120',
-        usage: "<username>"
-      }
-    })
+        usage: '<username>',
+      },
+    });
   }
 
   before() {
@@ -40,8 +41,8 @@ export default class VMaxedCommand extends Command {
   }
 
   async exec(message: Message, { username, chart }: args): Promise<Message> {
-    username = username ? username : await this.userDb.getRSN(message.author.id);
-    //TODO: Throw error for 404
+    username = username || await this.userDb.getRSN(message.author.id);
+    // TODO: Throw error for 404
     const profile = await getProfile(username);
 
     if (profile.error === 'NO_PROFILE') return message.channel.send(this.client.errorDialog('Error', 'No user found'));
@@ -53,16 +54,16 @@ export default class VMaxedCommand extends Command {
       const stats = this.calculateSkillGraph(skills);
 
       if (stats.maxedSkillCount === SKILL_COUNT) {
-        return message.channel.send(this.client.dialog('Virtual Maxed', 'Your already virtual maxed! :partying_face:'))
+        return message.channel.send(this.client.dialog('Virtual Maxed', 'Your already virtual maxed! :partying_face:'));
       }
 
-      const dataValues = stats.remaining.filter(x => x.percent < 100);
+      const dataValues = stats.remaining.filter((x) => x.percent < 100);
 
       spec.title.text = username.toUpperCase();
       spec.title.subtitle = [`${stats.totalPercentToMax}% to virtual max`, `${stats.notMaxedSkillCount} skills are missing a total of ${commaSeperatedNumbers(stats.totalRemainingXp)} XP`];
       spec.data[0].values = dataValues;
       const view = new vega.View(vega.parse(spec), { renderer: 'none' });
-      await view.toSVG().then(async svg => {
+      await view.toSVG().then(async (svg) => {
         const buffer = await sharp(Buffer.from(svg)).toFormat('png').toBuffer();
         const attachment = new MessageAttachment(buffer, `${username}_${Date.now()}.png`);
         return message.channel.send(`\`${username}\` virtual maxed chart`, attachment);
@@ -76,14 +77,14 @@ export default class VMaxedCommand extends Command {
     let str = `**${username}** is __${stats.totalPercentToMax}%__ to virtual max\n`;
 
     if (stats.notMaxedSkillCount > 0 && stats.totalPercentToMax < 100) {
-      const totalRemainingXp = stats.totalRemainingXp;
+      const { totalRemainingXp } = stats;
       str += `\n${stats.notMaxedSkillCount} skills are missing a total of ${commaSeperatedNumbers(totalRemainingXp)} xp`;
       str += `\nHe has ${stats.maxedSkillCount} of ${skills.length} skills\n`;
 
       for (const skill of stats.remaining) {
         const skillName = skillFromId(skill.skillId).name;
         const remainingXp = skill.remaining;
-        const xp = skills.find(it => it.id === skill.skillid)?.xp;
+        const xp = skills.find((it) => it.id === skill.skillid)?.xp;
 
         if (xp === -1) {
           str += `\n\t${skillName}: Is not on the hiscores`;
@@ -92,29 +93,29 @@ export default class VMaxedCommand extends Command {
         }
       }
     } else {
-      str += `\nYour already maxed! :partying_face:`
+      str += '\nYour already maxed! :partying_face:';
     }
     return message.channel.send(this.client.dialog('Virtual Maxed', str));
   }
 
   getNumberOf120Skills(skills: Skill[]): Number {
-    return skills.filter(skill => skill.level >= 120).length;
+    return skills.filter((skill) => skill.level >= 120).length;
   }
 
   calculateSkillStats(skills: Skill[]): Object {
     const maxedSkillCount = this.getNumberOf120Skills(skills);
     const notMaxedSkillCount = skills.length - maxedSkillCount;
     const percentSkillsMaxed = Math.round((100 * maxedSkillCount) / skills.length);
-    const remaining = this.getSkillRemainingXp(skills).map(remainder => ({
+    const remaining = this.getSkillRemainingXp(skills).map((remainder) => ({
       skillId: remainder.skillId,
       remaining: remainder.remaining,
       max: remainder.max,
-      percentTo120: Math.round((100 * remainder.current) / remainder.max)
+      percentTo120: Math.round((100 * remainder.current) / remainder.max),
     }));
-    const totalRemainingXp = remaining.map(skill => skill.remaining).reduce((sum, xp) => sum + xp, 0);
+    const totalRemainingXp = remaining.map((skill) => skill.remaining).reduce((sum, xp) => sum + xp, 0);
     const totalxpAt120 = TOTAL_XP_AT_ALL_120;
     const totalPercentToMax = Math.round(
-      (100 * (totalxpAt120 - totalRemainingXp)) / totalxpAt120
+      (100 * (totalxpAt120 - totalRemainingXp)) / totalxpAt120,
     );
 
     return {
@@ -128,23 +129,23 @@ export default class VMaxedCommand extends Command {
   }
 
   getSkillRemainingXp(skills: Skill[]) {
-    let notMaxed = skills.filter(skill => skill.level < 120);
-    return notMaxed.map(skill => xpUntil120(skillFromId(skill.id), skill.xp));
-}
+    const notMaxed = skills.filter((skill) => skill.level < 120);
+    return notMaxed.map((skill) => xpUntil120(skillFromId(skill.id), skill.xp));
+  }
   calculateSkillGraph(skills): Object {
     const maxedSkillCount = this.getNumberOf120Skills(skills);
     const notMaxedSkillCount = skills.length - maxedSkillCount;
     const percentSkillsMaxed = Math.round((100 * maxedSkillCount) / skills.length);
-    const remaining = this.getSkillRemainingXp(skills).map(remainder => ({
+    const remaining = this.getSkillRemainingXp(skills).map((remainder) => ({
       skill: skillFromId(remainder.skillId).name,
       remaining: remainder.remaining,
       position: 0,
-      percent: Math.round((100 * remainder.current) / remainder.max)
+      percent: Math.round((100 * remainder.current) / remainder.max),
     }));
-    const totalRemainingXp = remaining.map(skill => skill.remaining).reduce((sum, xp) => sum + xp, 0);
+    const totalRemainingXp = remaining.map((skill) => skill.remaining).reduce((sum, xp) => sum + xp, 0);
     const totalxpAt120 = TOTAL_XP_AT_ALL_120;
     const totalPercentToMax = Math.round(
-      (100 * (totalxpAt120 - totalRemainingXp)) / totalxpAt120
+      (100 * (totalxpAt120 - totalRemainingXp)) / totalxpAt120,
     );
 
     return {
@@ -155,5 +156,6 @@ export default class VMaxedCommand extends Command {
       totalRemainingXp,
       totalPercentToMax,
     };
-  };
+  }
+
 }

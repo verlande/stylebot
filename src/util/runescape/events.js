@@ -3,18 +3,18 @@ import go from 'got';
 export const voiceOfSeren = async (): String => {
   let str = '';
   await go.get('https://chisel.weirdgloop.org/api/runescape/vos', {
-    responseType: 'json'
-  }).then(response => {
-    const districts = response.body.districts;
+    responseType: 'json',
+  }).then((response) => {
+    const { districts } = response.body;
     str = `Currently active in ${districts[0]} & ${districts[1]}`;
-  }).catch(err => console.log(err));
+  }).catch((err) => console.log(err));
   return str;
 };
 
 export const cache = (): String => {
   const d = new Date();
 
-  let hoursUntilBoost = 2 - d.getUTCHours() % 3;
+  let hoursUntilBoost = (2 - d.getUTCHours()) % 3;
   let minutesUntilBoost = 60 - d.getUTCMinutes();
 
   const secondsUntil = 3600 - (d.getUTCMinutes()) % 60 * 60 - d.getUTCSeconds();
@@ -52,7 +52,6 @@ export const cache = (): String => {
     boostTimeStr = 'NOW!';
   }
   return `Next cache will be in **${cacheTimeStr}**\nBoost will be in **${boostTimeStr}**`;
-
 };
 
 export const sinkhole = (): String => {
@@ -61,11 +60,11 @@ export const sinkhole = (): String => {
   let timeStr = '';
 
   if (minutesUntil === 0) {
-    timeStr += 'Right now!'
+    timeStr += 'Right now!';
   }
 
   if (minutesUntil > 0) {
-    timeStr += `Next sinkhole in ${minutesUntil} minute${minutesUntil > 0 && minutesUntil < 1 ? '' : 's'}`
+    timeStr += `Next sinkhole in ${minutesUntil} minute${minutesUntil > 0 && minutesUntil < 1 ? '' : 's'}`;
   }
   return timeStr;
 };
@@ -98,11 +97,11 @@ export const spotlight = (): String => {
     'Cabbage Facepunch Bonanza',
     'Heist',
     'Trouble Brewing',
-    'Castle Wars'
+    'Castle Wars',
   ];
 
-  let currentSpotlight = Math.floor((((Math.floor((Date.now() / 1000) / (24 * 60 * 60))) - 49) % (3 * MINIGAMES.length)) / 3);
-  let daysUntilNext = 3 - ((Math.floor((Date.now() / 1000) / (24 * 60 * 60))) - 49) % (3 * MINIGAMES.length) % 3;
+  const currentSpotlight = Math.floor((((Math.floor((Date.now() / 1000) / (24 * 60 * 60))) - 49) % (3 * MINIGAMES.length)) / 3);
+  const daysUntilNext = 3 - ((Math.floor((Date.now() / 1000) / (24 * 60 * 60))) - 49) % (3 * MINIGAMES.length) % 3;
   let nextSpotlight = currentSpotlight + 1;
 
   if (nextSpotlight === MINIGAMES.length) nextSpotlight = 0;
@@ -110,7 +109,7 @@ export const spotlight = (): String => {
   let toSend = [];
 
   toSend.push(`The current minigame that is on spotlight is **${MINIGAMES[currentSpotlight]}**.`);
-  toSend.push(`The next minigame to be on spotlight will be **${MINIGAMES[nextSpotlight]}** in **${daysUntilNext}** day${(daysUntilNext > 1 ? `s` : ``)}.`);
+  toSend.push(`The next minigame to be on spotlight will be **${MINIGAMES[nextSpotlight]}** in **${daysUntilNext}** day${(daysUntilNext > 1 ? 's' : '')}.`);
 
   toSend = toSend.join('\n');
   return toSend;
@@ -118,11 +117,12 @@ export const spotlight = (): String => {
 
 
 export const warbands = (): Array<Number, Number> => {
-  let d = new Date(), diff = new Date(), seconds;
+  const d = new Date(); const diff = new Date(); let
+    seconds;
   let day = d.getUTCDate() - d.getUTCDay();
 
   if (d.getUTCDate() === 0 && d.getUTCHours() < 12) {
-    day = day - 7;
+    day -= 7;
   }
 
   diff.setUTCDate(day);
@@ -136,8 +136,8 @@ export const warbands = (): Array<Number, Number> => {
   seconds = Math.floor(seconds / 1000);
   seconds = 25200 - (seconds % 25200);
 
-  let hours = Math.floor(seconds / 3600);
-  let minutes = Math.floor((seconds % 3600) / 60);
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
   seconds = (seconds % 3600) % 60;
 
   return [hours, minutes];

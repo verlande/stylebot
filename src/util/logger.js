@@ -5,23 +5,24 @@ import { DateTime } from 'luxon';
 import RotateFile from 'winston-daily-rotate-file';
 
 export default class Logger {
+
     logger: any = createLogger({
-        format: format.combine(
-            format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
-            format.json({ space: 0 }),
-            //format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`),
-        ),
+      format: format.combine(
+        format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+        format.json({ space: 0 }),
+        // format.printf(info => `[${info.timestamp}] ${info.level}: ${info.message}`),
+      ),
       transports: [
         new transports.Console({
-            format: this.baseFormat()
+          format: this.baseFormat(),
         }),
-          new transports.DailyRotateFile({
-              filename: '%DATE%.log',
-              dirname: `${process.cwd()}/logs`,
-              maxFiles: '14d',
-              maxSize: '256m',
-              json: true,
-          }),
+        new transports.DailyRotateFile({
+          filename: '%DATE%.log',
+          dirname: `${process.cwd()}/logs`,
+          maxFiles: '14d',
+          maxSize: '256m',
+          json: true,
+        }),
         // new RotateFile({
         //   filename: '%DATE%.log',
         //   dirname: `${process.cwd()}/logs`,
@@ -31,7 +32,7 @@ export default class Logger {
         // }),
       ],
       exitOnError: false,
-      //format: this.baseFormat(),
+      // format: this.baseFormat(),
     });
 
     baseFormat() {
@@ -52,16 +53,19 @@ export default class Logger {
       type = type.toUpperCase();
 
       switch (type.toLowerCase()) {
+
         default: return chalk.cyan(type);
         case 'info': return chalk.greenBright(type);
         case 'debug': return chalk.magentaBright(type); ss;
         case 'warn': return chalk.yellowBright(type);
         case 'error': return chalk.redBright(type);
         case 'timestamp': return chalk.bgMagenta.whiteBright(content);
+
       }
     }
 
     get time() {
       return DateTime.local().toFormat('dd/MM/yyyy, HH:mm:ss.S');
     }
+
 }

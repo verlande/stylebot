@@ -13,4 +13,5 @@ export default class CronRemovedListener extends Listener {
   exec(id) {
     this.client.logger.info(`CronJob '${id}' removed`, { event: 'CRONJOB' });
   }
+
 }

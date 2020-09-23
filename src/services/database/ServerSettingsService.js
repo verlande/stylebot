@@ -1,8 +1,10 @@
-import {difference, get, merge, omit, remove, set} from 'lodash';
+import {
+  difference, get, merge, omit, remove, set,
+} from 'lodash';
 import DatabaseService from 'services/database/DatabaseService';
 import Constants from 'constants';
-import {ServerSettings} from 'models/database/StyleServerSettings';
-import {getPaths} from 'util/object';
+import { ServerSettings } from 'models/database/StyleServerSettings';
+import { getPaths } from 'util/object';
 
 const PATHS_TO_REMOVE = [
   'jftCron',
@@ -11,6 +13,7 @@ const PATHS_TO_REMOVE = [
 ];
 
 export default class ServerSettingsDatabaseService extends DatabaseService {
+
   async getSettingsForServer(id: String, options: object = {}) {
     try {
       const defaults = new ServerSettings();
@@ -51,7 +54,7 @@ export default class ServerSettingsDatabaseService extends DatabaseService {
     try {
       const settings = (await this.getSettingsForServer(id)).get();
       if (!this.getSettingsPaths(settings)) {
-        throw new Error('Unable to set.')
+        throw new Error('Unable to set.');
       }
 
       set(settings, ['settings', property].join('.'), value);
@@ -86,4 +89,5 @@ export default class ServerSettingsDatabaseService extends DatabaseService {
       id: guild.id,
     };
   }
+
 }

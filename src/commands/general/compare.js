@@ -36,7 +36,8 @@ export default class CompareCommand extends Command {
 
     let profile = await getProfile(usernames[0]);
     let profile2 = await getProfile(usernames[1]);
-    const totalXp = profile.totalxp, totalXp2 = profile2.totalxp;
+    const totalXp = profile.totalxp; const
+      totalXp2 = profile2.totalxp;
 
     if (profile.error === 'NO_PROFILE' || profile2.error === 'NO_PROFILE') {
       return message.channel.send(this.client.errorDialog('Error', 'One of the users not found'));

@@ -18,7 +18,7 @@ export default class LottoCommand extends Command {
           id: 'username',
           type: Argument.range('string', 1, 25),
           match: 'text',
-          default: null
+          default: null,
         },
         {
           id: 'add',

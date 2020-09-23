@@ -1,4 +1,5 @@
 export default class DatabaseOptions {
+
     name: String = '';
     time: String = '';
     runOnInit: Boolean = true;
@@ -6,4 +7,5 @@ export default class DatabaseOptions {
     constructor(options) {
       Object.assign(this, options);
     }
+
 }

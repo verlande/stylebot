@@ -11,6 +11,7 @@ import { create } from 'database';
 const db = create();
 
 export default class StyleClient extends AkairoClient {
+
     Error: StyleError = StyleError;
 
     db: any = db;
@@ -28,7 +29,7 @@ export default class StyleClient extends AkairoClient {
     handlers: Object = {
       command: new CommandHandler(this, {
         allowMention: true,
-        ignoreCooldown: ['323208710401032194'], //TODO: Take ownerID from .env
+        ignoreCooldown: ['323208710401032194'], // TODO: Take ownerID from .env
         ignorePermissions: ['323208710401032194'],
         automateCategories: true,
         commandUtil: true,
@@ -64,7 +65,7 @@ export default class StyleClient extends AkairoClient {
 
     constructor(config: Object = {}) {
       super({
-        ownerID: /*config.owners || */['323208710401032194'],
+        ownerID: /* config.owners || */['323208710401032194'],
       }, {
         messageCacheLifetime: 300,
         messageCacheMaxSize: 35,
@@ -73,12 +74,12 @@ export default class StyleClient extends AkairoClient {
           'CHANNEL_PINS_UPDATE',
           'GUILD_BAN_ADD',
           'GUILD_BAN_REMOVE',
-          //'MESSAGE_DELETE',
+          // 'MESSAGE_DELETE',
           'MESSAGE_DELETE_BULK',
           'RESUMED',
           'WEBHOOKS_UPDATE',
         ],
-        disableEveryone: true
+        disableEveryone: true,
       });
 
       this.config = config;
@@ -118,4 +119,5 @@ export default class StyleClient extends AkairoClient {
         console.log('err', e);
       }
     }
+
 }

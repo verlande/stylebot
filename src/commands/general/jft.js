@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import * as JFT from 'util/jft';
 
 export default class JustForTodayCommand extends Command {
+
   constructor() {
     super('jft', {
       aliases: ['jft'],
@@ -18,7 +19,7 @@ export default class JustForTodayCommand extends Command {
 
   before() {
     this.db = this.client.db.ServerSettings;
-  };
+  }
 
   async exec(message: Message): Promise<Message> {
     try {
@@ -28,8 +29,9 @@ export default class JustForTodayCommand extends Command {
       return message.channel.send(
         JFT.getDialog(this.client.dialog(null), jft),
       );
-    } catch(e) {
+    } catch (e) {
       this.client.logger.error(e);
     }
   }
+
 }

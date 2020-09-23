@@ -142,7 +142,7 @@
       "max-len": [
         "error",
         {
-          "code": 120
+          "code": 170
         }
       ],
       "linebreak-style": [

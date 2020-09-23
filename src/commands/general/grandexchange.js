@@ -47,7 +47,7 @@ export default class GrandExchangeCommand extends Command {
           .setImage(this.milo)
           .setThumbnail(null));
       }, 2250));
-      return msg.then((m) => setTimeout(() => { m.delete() }, 6000));
+      return msg.then((m) => setTimeout(() => { m.delete(); }, 6000));
     }
 
     const extract = await this.getExtract(itemData.information.item.name);
@@ -56,14 +56,14 @@ export default class GrandExchangeCommand extends Command {
 
     const change = itemData.information.item;
     if (change.day30.trend === 'positive') str += `30D ${change.day30.change} ${this.arrowUp}\n`;
-    if (change.day30.trend === 'neutral') str += `30D N/C\n`;
+    if (change.day30.trend === 'neutral') str += '30D N/C\n';
     if (change.day30.trend === 'negative') str += `30D ${change.day30.change} ${this.arrowDown}\n`;
-    if (change.day90.trend === 'neutral') str += `90D N/C\n`;
+    if (change.day90.trend === 'neutral') str += '90D N/C\n';
     if (change.day90.trend === 'positive') str += `90D ${change.day90.change} ${this.arrowUp}\n`;
     if (change.day90.trend === 'negative') str += `90D ${change.day90.change} ${this.arrowDown}\n`;
     if (change.day180.trend === 'positive') str += `180D ${change.day180.change} ${this.arrowUp}\n`;
     if (change.day180.trend === 'negative') str += `180D ${change.day180.change} ${this.arrowDown}\n`;
-    if (change.day180.trend === 'neutral') str += `180D N/C\n`;
+    if (change.day180.trend === 'neutral') str += '180D N/C\n';
 
     spec.title.text = itemData.information.item.name.toUpperCase();
     spec.data.values = graphData;

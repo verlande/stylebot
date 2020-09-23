@@ -2,6 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 
 export default class StyleError {
+
     message: Message;
     command: Command;
     err: Error;
@@ -22,4 +23,5 @@ export default class StyleError {
     exec() {
       if (this.err && this.command) this.command.client.logger.error(this.err);
     }
+
 }

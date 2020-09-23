@@ -15,7 +15,6 @@ export default class CronModule extends AkairoModule {
     add({
       id, cronTime, onTick, onComplete, start, timezone, context, runOnInit,
     }: CronOptions) {
-
       this.handler.emit(
         Constants.Events.CRON_CREATED,
         id,
@@ -27,10 +26,8 @@ export default class CronModule extends AkairoModule {
         job: new CronJob(
           cronTime,
           async () => {
-            if (typeof onTick === 'function')
-              await onTick();
-            if (typeof onComplete === 'function')
-              await onComplete();
+            if (typeof onTick === 'function') await onTick();
+            if (typeof onComplete === 'function') await onComplete();
 
             this.handler.emit(
               Constants.Events.CRON_FINISHED,
@@ -83,7 +80,7 @@ export default class CronModule extends AkairoModule {
     }
 
     destroyAll() {
-      Object.values(this.jobs).map(job => job.id).forEach(id => this.destroy(id));
+      Object.values(this.jobs).map((job) => job.id).forEach((id) => this.destroy(id));
     }
 
 }

@@ -2,6 +2,7 @@ import { AkairoHandler, AkairoError } from 'discord-akairo';
 import CronModule from './index';
 
 export default class CronHandler extends AkairoHandler {
+
   constructor(client, {
     directory,
     classToHandle = CronModule,
@@ -21,4 +22,5 @@ export default class CronHandler extends AkairoHandler {
 
     this.on('load', (mod) => mod.load(client));
   }
+
 }

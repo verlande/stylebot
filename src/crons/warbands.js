@@ -5,11 +5,12 @@ import StyleClient from 'client';
 import { warbands } from 'util/runescape/events';
 
 export default class WarbandsCron extends CronModule {
+
   constructor() {
     super(Constants.Modules.CRON_WARBANDS, {});
   }
 
-  load(client: StyleClient) {
+  load() {
     const job = new CronOptions();
     job.id = `${Constants.Modules.CRON_WARBANDS}-${Math.random().toString(36).slice(2)}`;
     job.cronTime = '50 */1 * * *';
@@ -29,11 +30,11 @@ export default class WarbandsCron extends CronModule {
 
       if (guilds) {
         if (warbands()[0] < 1) {
-          const guildIds = guilds.map(g => g.id);
-          guildIds.forEach(async (e, i) => {
-            let pingChannelId = await this.client.db.ServerSettings.getSettingForServer(e.toString(), 'admin.pingsChannel');
+          const guildIds = guilds.map((g) => g.id);
+          guildIds.forEach(async (e) => {
+            const pingChannelId = await this.client.db.ServerSettings.getSettingForServer(e.toString(), 'admin.pingsChannel');
             if (pingChannelId) {
-              let pingChannel = this.client.util.resolveChannel(pingChannelId, this.client.channels.cache);
+              const pingChannel = this.client.util.resolveChannel(pingChannelId, this.client.channels.cache);
               if (pingChannel) {
                 return pingChannel.send(this.client.dialog('Warbands', 'The next Warband is about to begin!'));
               }
@@ -41,9 +42,9 @@ export default class WarbandsCron extends CronModule {
           });
         }
       }
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
     }
   }
+
 }
