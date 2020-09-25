@@ -1,6 +1,5 @@
 import { Command, Argument } from 'discord-akairo';
 import { Message, Permissions } from 'discord.js';
-import { sample } from 'lodash';
 
 export default class LottoCommand extends Command {
 
@@ -50,21 +49,39 @@ export default class LottoCommand extends Command {
     });
   }
 
-  before(): Promise<Message> {
-    this.lottoDb = this.client.db.Lotto;
+  async before() {
+    try {
+      this.lottoDb = this.client.db.Lotto;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async exec(message: Message, {
     username, add, remove, list, winner, clear,
   }: args): Promise<Message> {
     await message.delete();
+    const settings = await this.settings;
+
     if (username === null && list) {
       try {
-        const entries = await this.lottoDb.getEntries({ attributes: ['name'], raw: true, order: ['createdAt'] });
-
+        const entries = await this.getEntries();
         const names = entries.map((x, i) => `**${i})** ${x.name}`);
 
-        return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+        const channel = await message.guild.channels.cache.get('755532328050098186');
+
+        if (channel) {
+          channel.messages.fetch({ limit: 100 }).then((m) => {
+            const msgs = m.filter((x) => x.author.id === '699865501559685120' && x.embeds !== null && x.pinned);
+            msgs.forEach((x) => {
+              if (x.embeds[0].title === 'Lotto - Entries List' && x.embeds[0].title !== undefined) {
+                return x.edit(this.client.dialog('Lotto - Entries List', names));
+              }
+            }).catch((err) => console.log(err));
+            if (msgs.length === 0) return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+          }).catch((err) => console.log(err));
+          // return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+        }
       } catch (e) {
         console.log(e);
       }
@@ -75,7 +92,8 @@ export default class LottoCommand extends Command {
           .then((m) => setTimeout(() => m.delete(), 1500));
       } catch (e) {
         console.log(e);
-        return message.channel.send(this.client.errorDialog('Error', 'Name is already entered or is longer than 25'));
+        return message.channel.send(this.client.errorDialog('Error', 'Name is already entered or is longer than 25'))
+          .then((m) => setTimeout(() => m.delete(), 3500));
       }
     } else if (username !== null && remove) {
       try {
@@ -87,22 +105,31 @@ export default class LottoCommand extends Command {
       }
     } else if (username === null && winner) {
       try {
-        const entries = await this.lottoDb.getEntries({ attributes: ['name'], raw: true });
-
+        const entries = await this.getEntries();
+        const rand = this.getRandomNumber(null, entries.length);
         return message.channel.send(this.client.dialog('Lotto - Winner',
-          `${sample(entries).name} is the lotto winner!\n\nOut of ${entries.length} entries`));
+          `The dice landed on **${rand}**, therefore \`${entries[rand].name}\` is the lotto winner! :tada:\n\nOut of ${entries.length} entries`));
       } catch (e) {
         console.log(e);
       }
     } else if (username === null && clear) {
       try {
         await this.lottoDb.destroy({ truncate: true });
-        return message.channel.send(this.client.dialog('Lotto - Winner',
+        return message.channel.send(this.client.dialog('Lotto - Cleared',
           'Successfully cleared lotto entries')).then((m) => setTimeout(() => m.delete(), 3500));
       } catch (e) {
         console.log(e);
       }
     }
+  }
+
+  async getEntries(): Array<String> {
+    return await this.lottoDb.getEntries({ attributes: ['name'], raw: true, order: ['createdAt'] });
+  }
+
+  getRandomNumber(min = 0, max): Number {
+    max = Math.ceil(max);
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
 }
