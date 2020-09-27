@@ -68,12 +68,12 @@ export default class LottoCommand extends Command {
         const names = entries.map((x, i) => `**${i})** ${x.name}`);
 
         //TODO: HARD CODED CHANNEL ID
-        const channel = await message.guild.channels.cache.get('759585815524933642');
+        const channel = await message.guild.channels.cache.get('750099638303981571');
 
         if (channel) {
           channel.messages.fetch({ limit: 100 }).then((m) => {
             //TODO: HARD CODED BOT USER ID
-            const msgs = m.filter((x) => x.author.id === '699865501559685120' && x.embeds !== null && x.pinned);
+            const msgs = m.filter((x) => x.author.id === '748677891721527440' && x.embeds !== null && x.pinned);
             if (msgs.size > 0) {
               msgs.forEach((x) => {
                 if (x.embeds[0].title === 'Lotto - Entries List' && x.embeds[0].title !== undefined) {
