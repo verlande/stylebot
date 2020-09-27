@@ -61,24 +61,28 @@ export default class LottoCommand extends Command {
     username, add, remove, list, winner, clear,
   }: args): Promise<Message> {
     await message.delete();
-    const settings = await this.settings;
 
     if (username === null && list) {
       try {
         const entries = await this.getEntries();
         const names = entries.map((x, i) => `**${i})** ${x.name}`);
 
-        const channel = await message.guild.channels.cache.get('755532328050098186');
+        //TODO: HARD CODED CHANNEL ID
+        const channel = await message.guild.channels.cache.get('759585815524933642');
 
         if (channel) {
           channel.messages.fetch({ limit: 100 }).then((m) => {
+            //TODO: HARD CODED BOT USER ID
             const msgs = m.filter((x) => x.author.id === '699865501559685120' && x.embeds !== null && x.pinned);
-            msgs.forEach((x) => {
-              if (x.embeds[0].title === 'Lotto - Entries List' && x.embeds[0].title !== undefined) {
-                return x.edit(this.client.dialog('Lotto - Entries List', names));
-              }
-            }).catch((err) => console.log(err));
-            if (msgs.length === 0) return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+            if (msgs.size > 0) {
+              msgs.forEach((x) => {
+                if (x.embeds[0].title === 'Lotto - Entries List' && x.embeds[0].title !== undefined) {
+                  return x.edit(this.client.dialog('Lotto - Entries List', names));
+                }
+              });
+            } else {
+              return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+            }
           }).catch((err) => console.log(err));
           // return message.channel.send(this.client.dialog('Lotto - Entries List', names));
         }
