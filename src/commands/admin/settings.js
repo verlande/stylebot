@@ -1,6 +1,6 @@
 import { Command, Message } from 'discord-akairo';
 import { Permissions } from 'discord.js';
-import { get, set } from 'lodash';
+import { get, set, remove } from 'lodash';
 
 export default class SettingsCommand extends Command {
 
@@ -39,8 +39,14 @@ export default class SettingsCommand extends Command {
           case 'admin.joinType':
             return ['dm', 'guild'];
           case 'admin.joinMessage':
-          case 'admin.leaveMessage':
+          // case 'admin.leaveMessage':
             return 'string';
+          case 'admin.leaveMessages':
+            return (message, phrase) => {
+              return phrase.split(/(--add|--remove)/gsi).map(c => {
+                return c;
+              })
+            };
             /*          case 'meeting.reminders':
           case 'jftCron.enabled':
             return ['true', 'false'];
@@ -90,6 +96,7 @@ export default class SettingsCommand extends Command {
 
         if (property && value && this.db.getSettingsPaths(this.settings).includes(property)) {
           value = (value === 'true' || value === 'false') ? (value === 'true') : value;
+          if (property === 'admin.leaveMessages') { await this.appendLeaveMessages(message, property, value); return; }
           return await this.updateSingle(message, property, value);
         }
 
@@ -160,6 +167,29 @@ export default class SettingsCommand extends Command {
           content,
         ),
       );
+    }
+
+    async appendLeaveMessages(message: Message, property: String, value: any): any {
+      try {
+        let leaveMessages = await this.db.getSettingForServer(message.guild.id, 'admin.leaveMessages');
+        if (leaveMessages.length > 0) {
+          if (value[1].toLowerCase() === '--add') {
+            leaveMessages.push(value[2].trimStart());
+            await this.db.setSettingForServer(message.guild.id, property, leaveMessages);
+            return message.channel.send(`The setting \`${property}\` has been updated, you have added \`${value[2]}\`.`);
+          } else if (value[1].toLowerCase() === '--remove') {
+            remove(leaveMessages, (n) => n === value[2].trimStart());
+            await this.db.setSettingForServer(message.guild.id, property, leaveMessages);
+            return message.channel.send(`The setting \`${property}\` has been updated, you have remove \`${value[2]}\`.`);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+        return this.displayError(
+          message,
+          e.message,
+        );
+      }
     }
 
 }

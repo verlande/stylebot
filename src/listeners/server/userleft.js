@@ -16,6 +16,8 @@ export default class UserLeft extends Listener {
       event: this.event.toUpperCase(),
       userId: member.user.id,
       username: member.user.tag,
+      nickname: member.nickname,
+      roles: member.roles.cache.map(x => x.name),
       guildName: member.guild.name,
       guildId: member.guild.id,
     });
@@ -23,10 +25,13 @@ export default class UserLeft extends Listener {
     try {
       const joinType = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.joinType');
       if (joinType === 'guild') {
-        const joinMessage = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.leaveMessage');
+        const leaveMessages = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.leaveMessages');
         const welcomeChannel = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.joinLeaveChannel');
         const channel = await member.guild.channels.cache.get(welcomeChannel);
-        return await channel.send(joinMessage.replace(/%user%/gi, `<@${member.user.id}>`));
+
+        const leaveMessage = leaveMessages[Math.floor(Math.random() * (Math.ceil(leaveMessages.length)))];
+
+        return await channel.send(leaveMessage.replace(/%user%/gi, `<@${member.user.id}>`));
       }
     } catch (e) {
       console.log(e);

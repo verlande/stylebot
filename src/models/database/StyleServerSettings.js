@@ -20,17 +20,6 @@ class IsValidJoinType implements ValidatorConstraintInterface {
     }
 }
 
-// class MeetingSettings {
-//     @IsString()
-//     source: String = '';
-//
-//     @IsBoolean()
-//     reminders: Boolean = false;
-//
-//     @IsString()
-//     remindersChannel: String = '';
-// }
-
 class AdminSettings {
     @IsString()
     botChannel: string = '';
@@ -41,8 +30,12 @@ class AdminSettings {
     @IsString()
     joinMessage: string = '';
 
-    @IsString()
-    leaveMessage: string = '';
+    // @IsString()
+    // leaveMessage: string = '';
+
+    @IsArray()
+    @ArrayUnique()
+    leaveMessages: Array<string> = [];
 
     @IsString()
     joinType: string = 'guild';
