@@ -1,7 +1,6 @@
 import CronModule from 'modules/cron';
 import CronOptions from 'models/CronOptions';
 import Constants from 'constants';
-import StyleClient from 'client';
 import { warbands } from 'util/runescape/events';
 
 export default class WarbandsCron extends CronModule {

@@ -1,5 +1,5 @@
 import { Command, Argument } from 'discord-akairo';
-import { Message, Permissions } from 'discord.js';
+import { Message } from 'discord.js';
 
 export default class LottoCommand extends Command {
 
@@ -44,12 +44,11 @@ export default class LottoCommand extends Command {
           match: 'flag',
           flag: '--clear',
         },
-      ],
-      userPermissions: [Permissions.FLAGS.ADMINISTRATOR],
+      ]
     });
   }
 
-  async before() {
+  async before(): any {
     try {
       this.lottoDb = this.client.db.Lotto;
     } catch (e) {
@@ -60,6 +59,7 @@ export default class LottoCommand extends Command {
   async exec(message: Message, {
     username, add, remove, list, winner, clear,
   }: args): Promise<Message> {
+    if ((message.member.roles.cache.find((r) => r.id === '750095351855448135') === undefined)) return;
     await message.delete();
 
     if (username === null && list) {
@@ -67,12 +67,14 @@ export default class LottoCommand extends Command {
         const entries = await this.getEntries();
         const names = entries.map((x, i) => `**${i})** ${x.name}`);
 
-        //TODO: HARD CODED CHANNEL ID
+        // TODO: HARD CODED CHANNEL ID
         const channel = await message.guild.channels.cache.get('750099638303981571');
+
+        if (message.channel !== channel) return message.channel.send(this.client.dialog('Lotto - Entries List', names));
 
         if (channel) {
           channel.messages.fetch({ limit: 100 }).then((m) => {
-            //TODO: HARD CODED BOT USER ID
+            // TODO: HARD CODED BOT USER ID
             const msgs = m.filter((x) => x.author.id === '748677891721527440' && x.embeds !== null && x.pinned);
             if (msgs.size > 0) {
               msgs.forEach((x) => {

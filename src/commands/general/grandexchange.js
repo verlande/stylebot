@@ -127,7 +127,7 @@ export default class GrandExchangeCommand extends Command {
       const values = Object.values(item.daily);
       const avg = Object.values(item.average);
 
-      for (let i = values.length - 60; i < values.length; i++) {
+      for (let i = values.length - 97; i < values.length; i++) {
         data.push({ timestamp: parseInt(timestamp[i]), price: values[i], avg: avg[i] });
       }
     });

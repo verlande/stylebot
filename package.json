@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "start": "npm run prod",
@@ -17,9 +17,7 @@
     "prod": "cross-env NODE_ENV=production npm-run-all build server",
     "transpile": "babel ./src --out-dir dist --copy-files",
     "clean": "del-cli \"dist/*\" \"!dist/.data\"",
-    "watch:dev": "nodemon",
-    "test": "jest",
-    "scrape": "node dates.js"
+    "watch:dev": "nodemon"
   },
   "dependencies": {
     "@yarnpkg/pnpify": "^2.0.0-rc.19",
