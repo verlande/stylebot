@@ -1,6 +1,6 @@
 import { Command, Message } from 'discord-akairo';
 import { Permissions } from 'discord.js';
-import { get, set, remove } from 'lodash';
+import { get, set, pullAt } from 'lodash';
 
 export default class SettingsCommand extends Command {
 
@@ -169,19 +169,22 @@ export default class SettingsCommand extends Command {
       );
     }
 
-    async appendLeaveMessages(message: Message, property: String, value: any): any {
+    async appendLeaveMessages(message: Message, property: String, value: any): any {console.log(value);
       try {
         let leaveMessages = await this.db.getSettingForServer(message.guild.id, 'admin.leaveMessages');
-        if (leaveMessages.length > 0) {
+        if (leaveMessages.length > 0 && value.length >= 2) {
           if (value[1].toLowerCase() === '--add') {
             leaveMessages.push(value[2].trimStart());
             await this.db.setSettingForServer(message.guild.id, property, leaveMessages);
             return message.channel.send(`The setting \`${property}\` has been updated, you have added \`${value[2]}\`.`);
           } else if (value[1].toLowerCase() === '--remove') {
-            remove(leaveMessages, (n) => n === value[2].trimStart());
+            const removedMsg = leaveMessages[parseInt(value[2].trimStart())];
+            pullAt(leaveMessages, parseInt(value[2].trimStart()));
             await this.db.setSettingForServer(message.guild.id, property, leaveMessages);
-            return message.channel.send(`The setting \`${property}\` has been updated, you have remove \`${value[2]}\`.`);
+            return message.channel.send(`The setting \`${property}\` has been updated, you have removed \`${removedMsg}\`.`);
           }
+        } else {
+          return message.channel.send(leaveMessages.map((x, i) => `**${i}**) \`${x}\`` ));
         }
       } catch (e) {
         console.log(e);
