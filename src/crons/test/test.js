@@ -21,7 +21,7 @@ export default class NewMemberCron extends CronModule {
     job.start = true;
     job.timezone = process.env.BOT_TIMEZONE;
     job.context = null;
-    job.runOnInit = false;// TODO: enable once in prod
+    job.runOnInit = true;// TODO: enable once in prod
 
     this.add(job);
   }
@@ -45,9 +45,9 @@ export default class NewMemberCron extends CronModule {
 
             // TODO: put this in settings at some point
             const announceChannel = this.client.util.resolveChannel('754015628599361647', this.client.channels.cache);
-
             if (announceChannel) {
-              announceChannel.send(this.client.dialog('New Clan Member!', `${e.name} has joined us!`));
+              const message = await this.client.db.ServerSettings.getSettingForServer(announceChannel.guild.id, 'admin.clanJoinMessage');
+              announceChannel.send(this.client.dialog('New Clan Member!', message.replace(/%user%/gi, `**${e.name}**`)));
             }
           } catch (e) {
             console.log(e);

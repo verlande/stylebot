@@ -38,6 +38,7 @@ export default class SettingsCommand extends Command {
           case 'timezone':
           case 'admin.joinType':
             return ['dm', 'guild'];
+          case 'admin.clanJoinMessage':
           case 'admin.joinMessage':
           // case 'admin.leaveMessage':
             return 'string';
@@ -169,7 +170,7 @@ export default class SettingsCommand extends Command {
       );
     }
 
-    async appendLeaveMessages(message: Message, property: String, value: any): any {console.log(value);
+    async appendLeaveMessages(message: Message, property: String, value: any): any {
       try {
         let leaveMessages = await this.db.getSettingForServer(message.guild.id, 'admin.leaveMessages');
         if (leaveMessages.length > 0 && value.length >= 2) {
@@ -184,7 +185,8 @@ export default class SettingsCommand extends Command {
             return message.channel.send(`The setting \`${property}\` has been updated, you have removed \`${removedMsg}\`.`);
           }
         } else {
-          return message.channel.send(leaveMessages.map((x, i) => `**${i}**) \`${x}\`` ));
+          if (leaveMessages.length > 0) return message.channel.send(leaveMessages.map((x, i) => `**${i}**) \`${x}\`` ));
+          return message.channel.send(this.client.errorDialog('Error', 'No leave messages to display'));
         }
       } catch (e) {
         console.log(e);

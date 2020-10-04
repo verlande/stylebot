@@ -38,6 +38,9 @@ class AdminSettings {
     leaveMessages: Array<string> = [];
 
     @IsString()
+    clanJoinMessage: string = '%user% has joined us!';
+
+    @IsString()
     joinType: string = 'guild';
 
     @IsString()
