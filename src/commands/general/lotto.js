@@ -1,5 +1,6 @@
 import { Command, Argument } from 'discord-akairo';
-import { Message } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
+import Constants from 'constants';
 
 export default class LottoCommand extends Command {
 
@@ -64,38 +65,16 @@ export default class LottoCommand extends Command {
 
     if (username === null && list) {
       try {
-        const entries = await this.getEntries();
-        const names = entries.map((x, i) => `**${i})** ${x.name}`);
-
-        // TODO: HARD CODED CHANNEL ID
-        const channel = await message.guild.channels.cache.get('750099638303981571');
-
-        if (message.channel !== channel) return message.channel.send(this.client.dialog('Lotto - Entries List', names));
-
-        if (channel) {
-          channel.messages.fetch({ limit: 100 }).then((m) => {
-            // TODO: HARD CODED BOT USER ID
-            const msgs = m.filter((x) => x.author.id === '748677891721527440' && x.embeds !== null && x.pinned);
-            if (msgs.size > 0) {
-              msgs.forEach((x) => {
-                if (x.embeds[0].title === 'Lotto - Entries List' && x.embeds[0].title !== undefined) {
-                  return x.edit(this.client.dialog('Lotto - Entries List', names));
-                }
-              });
-            } else {
-              return message.channel.send(this.client.dialog('Lotto - Entries List', names));
-            }
-          }).catch((err) => console.log(err));
-          // return message.channel.send(this.client.dialog('Lotto - Entries List', names));
-        }
+        return await this.updateList(message);
       } catch (e) {
         console.log(e);
       }
     } else if (username !== null && add) {
       try {
         await this.lottoDb.create({ name: username });
-        return message.channel.send(this.client.dialog('Lotto - Add', `Successfully added ${username}`))
+        message.channel.send(this.client.dialog('Lotto - Add', `Successfully added ${username}`))
           .then((m) => setTimeout(() => m.delete(), 1500));
+        return await this.updateList(message);
       } catch (e) {
         console.log(e);
         return message.channel.send(this.client.errorDialog('Error', 'Name is already entered or is longer than 25'))
@@ -104,6 +83,7 @@ export default class LottoCommand extends Command {
     } else if (username !== null && remove) {
       try {
         await this.lottoDb.destroy({ where: { name: username } });
+        await this.updateList(message);
         return message.channel.send(this.client.dialog('Lotto - Remove', `Removed ${username} from the lotto`))
           .then((m) => setTimeout(() => m.delete(), 1500));
       } catch (e) {
@@ -136,6 +116,41 @@ export default class LottoCommand extends Command {
   getRandomNumber(min = 0, max): Number {
     max = Math.ceil(max);
     return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  async updateList(message: Message): Promise<Message> {
+    try {
+      const channel = await message.guild.channels.cache.get('750099638303981571');
+      const entries = await this.getEntries();
+      const names = entries.map((x, i) => `**${i})** ${x.name}`);
+      const embed = new MessageEmbed().setTitle('Lotto - Entries List')
+        .setDescription(names)
+        .setThumbnail(this.client.logo)
+        .setColor(Constants.Colors.DEFAULT);
+        //.setFooter(`Last updated: ${luxon.DateTime.local().setZone('Europe/London').toISO()}`);
+
+      if (message.channel !== channel) return message.channel.send({ embed });
+
+      if (channel) {
+        channel.messages.fetch({ limit: 100 })
+          .then((m) => {
+            // TODO: HARD CODED BOT USER ID
+            const msgs = m.filter((x) => x.author.id === '748677891721527440' && x.embeds !== null && x.pinned);
+            if (msgs.size > 0) {
+              msgs.forEach((x) => {
+                if (x.embeds[0].title === 'Lotto - Entries List' && x.embeds[0].title !== undefined) {
+                  return x.edit({ embed });
+                }
+              });
+            } else {
+              return message.channel.send({ embed });
+            }
+          }).catch((err) => console.log(err));
+        // return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 }
