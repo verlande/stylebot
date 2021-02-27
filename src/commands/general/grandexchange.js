@@ -32,19 +32,17 @@ export default class GrandExchangeCommand extends Command {
     this.members = 'https://runescape.wiki/images/0/02/P2P_icon.png?d1bb2';
     this.arrowUp = ':arrow_up:';
     this.arrowDown = ':arrow_down:';
-    this.milo = 'https://media.discordapp.net/attachments/750302710988931092/750803127476813844/image0.jpg';
   }
 
   async exec(message: Message, { item }: args): Promise<Message> {
-    const msg = message.channel.send(this.client.dialog('Grand Exchange', 'sending milo to retrieve the item for you\nwill be back shortly')
-      .setImage(this.milo).setThumbnail(null));
+    const msg = message.channel.send(this.client.dialog('Grand Exchange', `Querying ${item}`)
+      .setThumbnail(null));
 
     const itemData = await this.getItem(item);
 
     if (itemData === null) {
       msg.then((m) => setTimeout(() => {
-        m.edit(this.client.errorDialog('Error', 'milo came back empty handed try again :face_with_monocle:\nbe more specific!!')
-          .setImage(this.milo)
+        m.edit(this.client.errorDialog('Error', 'Type full item name')
           .setThumbnail(null));
       }, 2250));
       return msg.then((m) => setTimeout(() => { m.delete(); }, 6000));
@@ -83,27 +81,27 @@ export default class GrandExchangeCommand extends Command {
       return message.channel.send(this.client.dialog(itemData.information.item.name, extract.extract)
         .addFields(
           {
-            name: 'Price',
-            value: `${commaSeperatedNumbers(itemData.price)} GP`,
+            name: 'Current Price',
+            value: itemData.information.item.current.price,
             inline: true,
           },
           {
             name: 'Buy Limit',
-            value: `${commaSeperatedNumbers(itemData.limit)}`,
+            value: commaSeperatedNumbers(itemData.limit),
             inline: true,
           },
           {
             name: 'Change',
-            value: `${str}`,
+            value: str,
             inline: false,
           },
         )
         .attachFiles(attachment)
         .setImage(`attachment://${attachment.name}`)
-        .setURL(`https://runescape.wiki/w/${encodeURI(itemData.item)}`)
         .setThumbnail(itemData.information.item.icon_large)
         .setFooter(itemData.information.item.members === 'true' ? 'Members' : 'Non Members',
-          itemData.information.item.members === 'true' ? this.members : this.nonMemebers));
+          itemData.information.item.members === 'true' ? this.members : this.nonMemebers)
+      );
     });
   }
 
@@ -141,3 +139,4 @@ export default class GrandExchangeCommand extends Command {
   }
 
 }
+
