@@ -35,6 +35,111 @@ export default class Logger {
       // format: this.baseFormat(),
     });
 
+    loggers: any = {
+      logger: createLogger({
+        format: format.combine(
+          format.simple(),
+        ),
+        transports: [new transports.Console()],
+      }),
+      command: createLogger({
+        format: format.combine(
+          format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+          format.json({ space: 0 }),
+        ),
+        transports: [
+          new transports.Console({
+            format: this.baseFormat(),
+          }),
+          new transports.DailyRotateFile({
+            filename: '%DATE%.log',
+            dirname: `${process.cwd()}/logs/command`,
+            maxFiles: '14d',
+            maxSize: '256m',
+            json: true,
+          }),
+        ],
+        exitOnError: false,
+      }),
+      cron: createLogger({
+        format: format.combine(
+          format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+          format.json({ space: 0 }),
+        ),
+        transports: [
+          new transports.Console({
+            format: this.baseFormat(),
+          }),
+          new transports.DailyRotateFile({
+            filename: '%DATE%.log',
+            dirname: `${process.cwd()}/logs/cron`,
+            maxFiles: '14d',
+            maxSize: '256m',
+            json: true,
+          }),
+        ],
+        exitOnError: false,
+      }),
+      joinLeave: createLogger({
+        format: format.combine(
+          format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+          format.json({ space: 0 }),
+        ),
+        transports: [
+          new transports.Console({
+            format: this.baseFormat(),
+          }),
+          new transports.DailyRotateFile({
+            filename: '%DATE%.log',
+            dirname: `${process.cwd()}/logs/join-leave`,
+            maxFiles: '14d',
+            maxSize: '256m',
+            json: true,
+          }),
+        ],
+        exitOnError: false,
+      }),
+      ban: createLogger({
+        format: format.combine(
+          format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+          format.json({ space: 0 }),
+        ),
+        transports: [
+          new transports.Console({
+            format: this.baseFormat(),
+          }),
+          new transports.DailyRotateFile({
+            filename: '%DATE%.log',
+            dirname: `${process.cwd()}/logs/bans`,
+            maxFiles: '14d',
+            maxSize: '256m',
+            json: true,
+          }),
+        ],
+        exitOnError: false,
+      }),
+      debug: createLogger({
+        level: 'debug',
+        format: format.combine(
+          format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss' }),
+          format.json({ space: 0 }),
+        ),
+        transports: [
+          new transports.Console({
+            format: this.baseFormat(),
+          }),
+          new transports.DailyRotateFile({
+            filename: '%DATE%.log',
+            dirname: `${process.cwd()}/logs/debug`,
+            maxFiles: '14d',
+            maxSize: '256m',
+            json: false,
+          }),
+        ],
+        exitOnError: false,
+      }),
+    };
+
     baseFormat() {
       const formatMessage = (log) => `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}`;
       const formatError = (log) => `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}\n ${log.stack}\n`;

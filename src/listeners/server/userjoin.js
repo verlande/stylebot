@@ -5,20 +5,20 @@ import { Listener } from 'discord-akairo';
 export default class UserJoin extends Listener {
 
   constructor() {
-    super('client:userJoin', {
+    super('client:userjoin', {
       emitter: 'client',
       event: 'guildMemberAdd',
     });
   }
 
   async exec(member: GuildMember): Promise<Message> {
-    this.client.logger.info(`${member.user.tag} has joined ${member.guild.name} (ID: ${member.guild.id})`, {
+    this.client.loggers.joinLeave.info(`${member.user.tag} has joined ${member.guild.name} (ID: ${member.guild.id})`, {
       event: this.event.toUpperCase(),
       userId: member.user.id,
       username: member.user.tag,
       guildName: member.guild.name,
       guildId: member.guild.id,
-      userCreatedAt: member.user.createdAt
+      userCreatedAt: member.user.createdAt,
     });
 
     try {
@@ -28,7 +28,7 @@ export default class UserJoin extends Listener {
         if (joinMessage.length === 0) return;
         const welcomeChannel = await this.client.db.ServerSettings.getSettingForServer(member.guild.id, 'admin.joinLeaveChannel');
         const channel = await member.guild.channels.cache.get(welcomeChannel);
-        return await channel.send(joinMessage.replace(/%user%/gi, `<@${member.user.id}>`));
+        await channel.send(joinMessage.replace(/%user%/gi, `<@${member.user.id}>`));
       }
     } catch (e) {
       console.log(e);

@@ -16,6 +16,7 @@ export default class StyleClient extends AkairoClient {
 
     db: any = db;
     logger: Logger = new Logger().logger;
+    loggers: Logger = new Logger().loggers;
     config: Object = {};
     dialog: Function = (title: string, description: StringResolvable = '') => this.util.embed()
       .setColor(Constants.Colors.DEFAULT)
