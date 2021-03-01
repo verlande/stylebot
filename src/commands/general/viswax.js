@@ -29,7 +29,7 @@
 //                     //second += `${rune} ${percentage}\n`;
 //                 }
 //             });
-//             return message.channel.send(this.client.dialog('Vis Wax Combos')
+//             return message.channel.send(this.client.Dialog('Vis Wax Combos')
 //                 .addField('First', first, true))//.addField('Second', second, true));
 //         });
 //     }

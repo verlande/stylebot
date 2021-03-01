@@ -34,7 +34,7 @@ export default class WarBandsCommand extends Command {
     if (minutes < 1 && hours < 1) {
       str += '**less than a minute**';
     }
-    return message.channel.send(this.client.dialog('Warbands', `Starts in ${str}`));
+    return message.channel.send(this.client.Dialog('Warbands', `Starts in ${str}`));
   }
 
 }

@@ -35,14 +35,14 @@ export default class GrandExchangeCommand extends Command {
   }
 
   async exec(message: Message, { item }: args): Promise<Message> {
-    const msg = message.channel.send(this.client.dialog('Grand Exchange', `Querying ${item}`)
+    const msg = message.channel.send(this.client.Dialog('Grand Exchange', `Querying ${item}`)
       .setThumbnail(null));
 
     const itemData = await this.getItem(item);
 
     if (itemData === null) {
       msg.then((m) => setTimeout(() => {
-        m.edit(this.client.errorDialog('Error', 'Type full item name')
+        m.edit(this.client.ErrorDialog('Error', 'Type full item name')
           .setThumbnail(null));
       }, 2250));
       return msg.then((m) => setTimeout(() => { m.delete(); }, 6000));
@@ -78,7 +78,7 @@ export default class GrandExchangeCommand extends Command {
 
       msg.then((m) => setTimeout(() => { m.delete(); }, 1000));
 
-      return message.channel.send(this.client.dialog(itemData.information.item.name, extract.extract)
+      return message.channel.send(this.client.Dialog(itemData.information.item.name, extract.extract)
         .addFields(
           {
             name: 'Current Price',
@@ -100,8 +100,7 @@ export default class GrandExchangeCommand extends Command {
         .setImage(`attachment://${attachment.name}`)
         .setThumbnail(itemData.information.item.icon_large)
         .setFooter(itemData.information.item.members === 'true' ? 'Members' : 'Non Members',
-          itemData.information.item.members === 'true' ? this.members : this.nonMemebers)
-      );
+          itemData.information.item.members === 'true' ? this.members : this.nonMemebers));
     });
   }
 
@@ -139,4 +138,3 @@ export default class GrandExchangeCommand extends Command {
   }
 
 }
-

@@ -14,7 +14,7 @@ export default class PvmCommand extends Command {
 
   async exec(message: Message): Promise<Message> {
     return message.channel.send(
-      this.client.dialog(null)
+      this.client.Dialog(null)
         .setTitle('PVM Rotations')
         .addField('Arraxi', [
           `**TOP PATH** ${this.arraxi()[0][0]}

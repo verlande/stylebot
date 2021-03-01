@@ -14,7 +14,7 @@ export default class CacheCommand extends Command {
   }
 
   async exec(message: Message): Promise<Message> {
-    return message.channel.send(this.client.dialog('Cache', cache()));
+    return message.channel.send(this.client.Dialog('Cache', cache()));
   }
 
 }

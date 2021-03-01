@@ -48,7 +48,7 @@ export default class StatsCommand extends Command {
 
     if (pie) {
       const data = await getProfile(username);
-      if (data.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.errorDialog('Error', 'Private profile'));
+      if (data.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.ErrorDialog('Error', 'Private profile'));
       const xpArr = data.skillvalues.map((x) => Math.round(x.xp / 10));
       const graphData = data.skillvalues.map((x, i) => this.getGraphData(skillFromId(x.id), x.xp, data.totalxp, xpArr[i]));
 
@@ -86,7 +86,7 @@ export default class StatsCommand extends Command {
       }
       return message.channel.send(`\`${table.toString()}\n\``);
     }).catch((err) => {
-      this.client.logger.error(err); return message.channel.send(this.client.errorDialog('Error', 'Cannot find username in hiscores'));
+      this.client.logger.error(err); return message.channel.send(this.client.ErrorDialog('Error', 'Cannot find username in hiscores'));
     });
   }
 

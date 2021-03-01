@@ -2,6 +2,7 @@ import { Guild, User } from 'discord.js';
 import { Listener } from 'discord-akairo';
 
 export default class GuildBanListener extends Listener {
+
   constructor() {
     super('client:guildBanAdd', {
       emitter: 'client',

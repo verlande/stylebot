@@ -9,7 +9,7 @@ export default class CommandStartedListener extends Listener {
     });
   }
 
-  exec(message: Message, command: Command, args: any, returnValue: any) {
+  exec(message: Message, command: Command, args: any): void {
     this.client.logger.info(`${message.author.tag} ran '${message.content}' in ${message.channel.name || 'DM'}`, {
       event: this.event.toUpperCase(),
       userId: message.author.id,

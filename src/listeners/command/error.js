@@ -10,7 +10,7 @@ export default class CommandErrorListener extends Listener {
     });
   }
 
-  exec(err: Error, message: Message, command: Command) {
+  async exec(err: Error, message: Message, command: Command): void {
     if (command && message) return new this.client.logger.error(message, command, err);
   }
 

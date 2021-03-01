@@ -27,7 +27,7 @@ export default class JustForTodayCommand extends Command {
       const date = DateTime.local().setZone(timezone);
       const jft = JFT.getForDate(date);
       return message.channel.send(
-        JFT.getDialog(this.client.dialog(null), jft),
+        JFT.getDialog(this.client.Dialog(null), jft),
       );
     } catch (e) {
       this.client.logger.error(e);

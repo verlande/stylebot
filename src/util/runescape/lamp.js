@@ -1,5 +1,4 @@
 import { commaSeperatedNumbers } from 'util/string';
-import { skillFromId } from 'util/runescape/skill-from-id';
 
 export const getLampXp = (level: number, type: string) => {
   const lamps = {

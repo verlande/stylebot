@@ -31,7 +31,7 @@ export default class InvitesCommand extends Command {
             console.log(inv.url);
             str += `${inv.url} *used ${inv.uses} times* created by **${inv.inviter.tag}**`;
           });
-          return message.channel.send(this.client.dialog('List of Invites', str));
+          return message.channel.send(this.client.Dialog('List of Invites', str));
         });
       } catch (e) {
         this.client.logger.error(e);

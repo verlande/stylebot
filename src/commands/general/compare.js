@@ -32,7 +32,7 @@ export default class CompareCommand extends Command {
   }
 
   async exec(message: Message, { usernames }: args): Promise<Message> {
-    if (usernames.length > 2) return message.channel.send(this.client.errorDialog('Error', 'Only 2 usersnames'));
+    if (usernames.length > 2) return message.channel.send(this.client.ErrorDialog('Error', 'Only 2 usersnames'));
 
     let profile = await getProfile(usernames[0]);
     let profile2 = await getProfile(usernames[1]);
@@ -40,10 +40,10 @@ export default class CompareCommand extends Command {
       totalXp2 = profile2.totalxp;
 
     if (profile.error === 'NO_PROFILE' || profile2.error === 'NO_PROFILE') {
-      return message.channel.send(this.client.errorDialog('Error', 'One of the users not found'));
+      return message.channel.send(this.client.ErrorDialog('Error', 'One of the users not found'));
     }
     if (profile.error === 'PROFILE_PRIVATE' || profile2.error === 'PROFILE_PRIVATE') {
-      return message.channel.send(this.client.errorDialog('Error', 'One of the users has private profile'));
+      return message.channel.send(this.client.ErrorDialog('Error', 'One of the users has private profile'));
     }
 
     profile = profile.skillvalues; profile2 = profile2.skillvalues;

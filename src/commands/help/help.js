@@ -24,7 +24,7 @@ export default class HelpCommand extends Command {
     // let inGuild = message.guild ? `This server's prefix is \`${Array.isArray(prefix) ? prefix.join(' or ') : primaryPrefix}\`` : '', `${primaryPrefix}help [command name]`;
 
     if (!command) {
-      const embed = this.client.dialog('Help Menu', `
+      const embed = this.client.Dialog('Help Menu', `
                 ${message.guild ? `Prefix is \`${Array.isArray(prefix) ? prefix.join(' or ') : primaryPrefix}\`` : ''}
                 ${primaryPrefix}help <command>
             `);
@@ -39,7 +39,7 @@ export default class HelpCommand extends Command {
       return message.channel.send(embed);
     } if (command) {
       const cmd = command;
-      return message.channel.send(this.client.dialog(`Help - ${cmd.aliases[0]}`, `
+      return message.channel.send(this.client.Dialog(`Help - ${cmd.aliases[0]}`, `
                     **Name**: \`${cmd.aliases[0]}\`
                     **Aliases**: ${`${cmd.aliases.map((x) => `\`${x}\``).join(', ') || 'No Alias'}`}
                     **Cooldown**: \`${`${cmd.cooldown / 1000}s` || 0}\`

@@ -112,50 +112,5 @@
       "*.test.js",
       "*.spec.js"
     ]
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "parser": "babel-eslint",
-      "sourceType": "module"
-    },
-    "env": {
-      "browser": false,
-      "node": true
-    },
-    "rules": {
-      "no-param-reassign": "off",
-      "import/first": "off",
-      "import/named": "error",
-      "import/namespace": "error",
-      "import/default": "error",
-      "import/export": "error",
-      "import/extensions": "off",
-      "import/no-unresolved": "off",
-      "import/no-extraneous-dependencies": "off",
-      "import/prefer-default-export": "off",
-      "prefer-promise-reject-errors": "off",
-      "lines-between-class-members": "off",
-      "no-console": "off",
-      "no-debugger": "off",
-      "max-len": [
-        "error",
-        {
-          "code": 170
-        }
-      ],
-      "linebreak-style": [
-        0,
-        "windows"
-      ],
-      "no-underscore-dangle": [
-        0
-      ],
-      "class-methods-use-this": [
-        0
-      ],
-      "no-shadow": [
-        0
-      ]
-    }
   }
 }

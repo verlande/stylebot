@@ -37,7 +37,7 @@ export default class SinkholeCron extends CronModule {
           if (pingChannelId) {
             const pingChannel = this.client.util.resolveChannel(pingChannelId, this.client.channels.cache);
             if (pingChannel) {
-              return pingChannel.send(this.client.dialog('Sinkhole', 'A sinkhole is about to start!'));
+              return pingChannel.send(this.client.Dialog('Sinkhole', 'A sinkhole is about to start!'));
             }
           }
         });

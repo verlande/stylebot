@@ -5,9 +5,14 @@ export const voiceOfSeren = async (): String => {
   await go.get('https://chisel.weirdgloop.org/api/runescape/vos', {
     responseType: 'json',
   }).then((response) => {
+    console.log(response);
+    if (response.status !== 200) return;
     const { districts } = response.body;
     str = `Currently active in ${districts[0]} & ${districts[1]}`;
-  }).catch((err) => console.log(err));
+  }).catch((err) => {
+    console.log(err);
+    return undefined;
+  });
   return str;
 };
 

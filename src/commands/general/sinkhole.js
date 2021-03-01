@@ -14,7 +14,7 @@ export default class SinkholeCommand extends Command {
   }
 
   async exec(message: Message): Promise<Message> {
-    return message.channel.send(this.client.dialog('Sinkhole', sinkhole()));
+    return message.channel.send(this.client.Dialog('Sinkhole', sinkhole()));
   }
 
 }

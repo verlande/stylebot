@@ -38,7 +38,7 @@ export default class VoiceOfSerenCron extends CronModule {
           if (pingChannelId) {
             const pingChannel = this.client.util.resolveChannel(pingChannelId, this.client.channels.cache);
             if (pingChannel) {
-              return pingChannel.send(this.client.dialog('Voice of Seren', await voiceOfSeren()));
+              return pingChannel.send(this.client.Dialog('Voice of Seren', await voiceOfSeren()));
             }
           }
         });

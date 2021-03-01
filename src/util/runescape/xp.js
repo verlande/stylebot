@@ -1,5 +1,4 @@
 import { LEVELS, MASTER_LEVELS, getSkillCurve } from './skillcurves';
-import { Skill } from './skill-from-id';
 
 export const SKILL_COUNT = 28;
 export const MAX_VIRTUAL_LEVEL = 120;

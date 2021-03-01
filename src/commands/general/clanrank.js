@@ -21,7 +21,7 @@ export default class ClanRankCommand extends Command {
   async exec(message: Message): Promise<Message> {
     await go('https://runeclan.com/clan/style').then(async (response) => {
       if (response.statusCode !== 200) {
-        return message.channel.send(this.client.errorDialog('Error', 'Something happened try again later'));
+        return message.channel.send(this.client.ErrorDialog('Error', 'Something happened try again later'));
       }
 
       const $ = cheerio.load(response.body);
@@ -39,14 +39,14 @@ export default class ClanRankCommand extends Command {
         else if (i % 1 !== 0) xpGain.push(i);
       });
 
-      return message.channel.send(this.client.dialog('Style Clan Rankings')
+      return message.channel.send(this.client.Dialog('Style Clan Rankings')
         .addField('Today', `Rank: ${rank[0]}\nXP: ${xpGain[0]}`)
         .addField('Yesterday', `Rank: ${rank[1]}\nXP: ${xpGain[1]}`)
         .addField('Week', `Rank: ${rank[2]}\nXP: ${xpGain[2]}`)
         .addField('Month', `Rank: ${rank[3]}\nXP: ${xpGain[3]}`));
     }).catch((err) => {
       this.client.logger.error(err);
-      return message.channel.send(this.client.errorDialog('Error', 'Something happened'));
+      return message.channel.send(this.client.ErrorDialog('Error', 'Something happened'));
     });
   }
 

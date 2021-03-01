@@ -35,7 +35,7 @@ export default class WarbandsCron extends CronModule {
             if (pingChannelId) {
               const pingChannel = this.client.util.resolveChannel(pingChannelId, this.client.channels.cache);
               if (pingChannel) {
-                return pingChannel.send(this.client.dialog('Warbands', 'The next Warband is about to begin!'));
+                return pingChannel.send(this.client.Dialog('Warbands', 'The next Warband is about to begin!'));
               }
             }
           });

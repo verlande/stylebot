@@ -22,10 +22,10 @@ export default class PollCommand extends Command {
   }
 
   async exec(message: Message, { question }: args): Promise<Message> {
-    if (question === null) return message.channel.send(this.client.errorDialog('Error', 'Question must be between 10 to 255 long'));
+    if (question === null) return message.channel.send(this.client.ErrorDialog('Error', 'Question must be between 10 to 255 long'));
 
     message.delete();
-    const msg = await message.channel.send(this.client.dialog('Poll', question));
+    const msg = await message.channel.send(this.client.Dialog('Poll', question));
     await msg.react('👍🏼');
     await msg.react('👎🏼');
     await msg.react('❓');

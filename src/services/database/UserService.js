@@ -8,18 +8,19 @@ export default class UserDatabaseService extends DatabaseService {
   }
 
   async setRSN(id: string, username: string) {
-    console.log(id, username);
     const exists = await this.getRSN(id);
-    if (exists === null) {
-      return await this.create({ id, name: username }).catch((err) => console.log(err));
-    }
-    return await this.update({
+    return exists === null ? await this.create({
+      id,
+      name: username,
+    })
+      .catch((err) => console.log(err)) : await this.update({
       name: username,
     }, {
       where: { id },
       returning: true,
       plain: true,
-    }).catch((err) => console.log(err));
+    })
+      .catch((err) => console.log(err));
   }
 
   mapUser(id: string, username: string) {

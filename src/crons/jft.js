@@ -56,7 +56,7 @@
 //                 const match = this.client.util.resolveChannel(channel, this.client.channels.cache);
 //                 if (match) {
 //                     match.send(
-//                         JFT.getDialog(this.client.dialog(null), jft),
+//                         JFT.getDialog(this.client.Dialog(null), jft),
 //                     )
 //                 }
 //             });

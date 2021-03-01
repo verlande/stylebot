@@ -25,7 +25,7 @@ export default class InfoCommand extends Command {
     ];
 
     return message.channel.send(
-      this.client.dialog(null)
+      this.client.Dialog(null)
         .setTitle('Style Bot')
         .setDescription(statsDescription)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
@@ -45,7 +45,7 @@ export default class InfoCommand extends Command {
           `**NodeJS**: ${process.version}`,
           `**OS**: ${os.type()} ${os.arch()}`,
         ], false)
-        .setFooter('Created by DADDY COOL#7091 (mummy603)', 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/au-kddi/190/flag-for-united-kingdom_1f1ec-1f1e7.png'),
+        .setFooter('Created by gods happy words#7091 (mummy603)'),
     );
   }
 

@@ -32,7 +32,7 @@ export default class SetRSNCommand extends Command {
     if (username == null) return;
     try {
       await this.db.setRSN(message.author.id, username);
-      return message.channel.send(this.client.dialog('Set RSN', `RSN set to ${username}`));
+      return message.channel.send(this.client.Dialog('Set RSN', `RSN set to ${username}`));
     } catch (e) {
       console.log(e);
     }

@@ -1,6 +1,5 @@
 import { Command, Argument } from 'discord-akairo';
 import { MessageAttachment } from 'discord.js';
-import { hiscores } from 'runescape-api';
 import { getProfile } from 'util/runescape/get-profile';
 import { xpUntil99, TOTAL_XP_AT_ALL_99, SKILL_COUNT } from 'util/runescape/xp';
 import { skillFromId } from 'util/runescape/skill-from-id';
@@ -36,7 +35,7 @@ export default class MaxedCommand extends Command {
     });
   }
 
-  before(message: Message): any {
+  before(): void {
     this.userDb = this.client.db.User;
   }
 
@@ -45,8 +44,8 @@ export default class MaxedCommand extends Command {
     // TODO: Throw error for 404
     const profile = await getProfile(username);
 
-    if (profile.error === 'NO_PROFILE') return message.channel.send(this.client.errorDialog('Error', 'No user found'));
-    if (profile.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.errorDialog('Error', 'Private profile'));
+    if (profile.error === 'NO_PROFILE') return message.channel.send(this.client.ErrorDialog('Error', 'No user found'));
+    if (profile.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.ErrorDialog('Error', 'Private profile'));
 
     const skills = profile.skillvalues;
 
@@ -54,7 +53,7 @@ export default class MaxedCommand extends Command {
       const stats = this.calculateSkillGraph(skills);
 
       if (stats.maxedSkillCount === SKILL_COUNT) {
-        return message.channel.send(this.client.dialog('Maxed', 'Your already maxed! :partying_face:'));
+        return message.channel.send(this.client.Dialog('Maxed', 'Your already maxed! :partying_face:'));
       }
 
       const dataValues = stats.remaining.filter((x) => x.percent < 100);
@@ -70,9 +69,7 @@ export default class MaxedCommand extends Command {
       });
       return;
     }
-
-    const maxedSkills = this.getNumberOf99Skills(skills);
-
+    this.getNumberOf99Skills(skills);
     const stats = this.calculateSkillStats(skills);
 
 
@@ -98,7 +95,7 @@ export default class MaxedCommand extends Command {
     } else {
       str += '\nYour already maxed! :partying_face:';
     }
-    return message.channel.send(this.client.dialog('Maxed', str));
+    return message.channel.send(this.client.Dialog('Maxed', str));
   }
 
   getNumberOf99Skills(skills: Skill[]) {

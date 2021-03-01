@@ -40,9 +40,9 @@ export default class DoubleXpCommand extends Command {
         }
         let str = '';
         usernames.map((x, i) => { const j = i + 1; str += `**${j})** *${x}* - ${arr[i]} XP\n`; });
-        return message.channel.send(this.client.dialog('Double XP Clan Gains', str));
+        return message.channel.send(this.client.Dialog('Double XP Clan Gains', str));
       });
-    }).catch((err) => { console.log(err); message.channel.send(this.client.errorDialog('Error', 'Something happened')); });
+    }).catch((err) => { console.log(err); message.channel.send(this.client.ErrorDialog('Error', 'Something happened')); });
   }
 
 }

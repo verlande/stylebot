@@ -29,7 +29,7 @@ export default class ResetCommand extends Command {
     if (minutes > 0) {
       timestr += ` ${minutes} minute${minutes > 1 ? 's' : ''}`;
     }
-    return message.channel.send(this.client.dialog('Reset', `The game will reset in **${timestr}**`));
+    return message.channel.send(this.client.Dialog('Reset', `The game will reset in **${timestr}**`));
   }
 
 }

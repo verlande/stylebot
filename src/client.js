@@ -18,12 +18,12 @@ export default class StyleClient extends AkairoClient {
     logger: Logger = new Logger().logger;
     loggers: Logger = new Logger().loggers;
     config: Object = {};
-    dialog: Function = (title: string, description: StringResolvable = '') => this.util.embed()
+    Dialog: Function = (title: string, description: StringResolvable = '') => this.util.embed()
       .setColor(Constants.Colors.DEFAULT)
       .setThumbnail(this.logo)
       .setTitle(title)
       .setDescription(description);
-    errorDialog: Function = (title: string, description: StringResolvable = '') => this.util.embed()
+    ErrorDialog: Function = (title: string, description: StringResolvable = '') => this.util.embed()
       .setColor(Constants.Colors.RED)
       .setTitle(title)
       .setDescription(description);
@@ -62,7 +62,7 @@ export default class StyleClient extends AkairoClient {
         automateCategories: true,
         directory: `${__dirname}/crons`,
       }),
-    }
+    };
 
     constructor(config: Object = {}) {
       super({
@@ -73,8 +73,8 @@ export default class StyleClient extends AkairoClient {
         disabledEvents: [
           'TYPING_START',
           'CHANNEL_PINS_UPDATE',
-          'GUILD_BAN_ADD',
-          'GUILD_BAN_REMOVE',
+          //'GUILD_BAN_ADD',
+          //'GUILD_BAN_REMOVE',
           // 'MESSAGE_DELETE',
           'MESSAGE_DELETE_BULK',
           'RESUMED',
@@ -114,7 +114,6 @@ export default class StyleClient extends AkairoClient {
       try {
         const force = ['-f', '--force'].some((f) => process.argv.includes(f));
         await this.db.sequelize.sync({ force });
-
         return this.login(this.config.token);
       } catch (e) {
         console.log('err', e);

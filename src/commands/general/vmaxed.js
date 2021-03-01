@@ -1,5 +1,4 @@
 import { Command, Argument } from 'discord-akairo';
-import { hiscores } from 'runescape-api';
 import { getProfile } from 'util/runescape/get-profile';
 import { TOTAL_XP_AT_ALL_120, xpUntil120, SKILL_COUNT } from 'util/runescape/xp';
 import { skillFromId } from 'util/runescape/skill-from-id';
@@ -30,7 +29,7 @@ export default class VMaxedCommand extends Command {
         },
       ],
       description: {
-        content: 'Displays remaining to 120',
+        content: 'Calculates remaining XP for each skill to level 120',
         usage: '<username>',
       },
     });
@@ -45,8 +44,8 @@ export default class VMaxedCommand extends Command {
     // TODO: Throw error for 404
     const profile = await getProfile(username);
 
-    if (profile.error === 'NO_PROFILE') return message.channel.send(this.client.errorDialog('Error', 'No user found'));
-    if (profile.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.errorDialog('Error', 'Private profile'));
+    if (profile.error === 'NO_PROFILE') return message.channel.send(this.client.ErrorDialog('Error', 'No user found'));
+    if (profile.error === 'PROFILE_PRIVATE') return message.channel.send(this.client.ErrorDialog('Error', 'Private profile'));
 
     const skills = profile.skillvalues;
 
@@ -54,7 +53,7 @@ export default class VMaxedCommand extends Command {
       const stats = this.calculateSkillGraph(skills);
 
       if (stats.maxedSkillCount === SKILL_COUNT) {
-        return message.channel.send(this.client.dialog('Virtual Maxed', 'Your already virtual maxed! :partying_face:'));
+        return message.channel.send(this.client.Dialog('Virtual Maxed', 'Your already virtual maxed! :partying_face:'));
       }
 
       const dataValues = stats.remaining.filter((x) => x.percent < 100);
@@ -70,8 +69,7 @@ export default class VMaxedCommand extends Command {
       });
       return;
     }
-
-    const maxedSkills = this.getNumberOf120Skills(skills);
+    this.getNumberOf120Skills(skills);
     const stats = this.calculateSkillStats(skills);
 
     let str = `**${username}** is __${stats.totalPercentToMax}%__ to virtual max\n`;
@@ -95,7 +93,7 @@ export default class VMaxedCommand extends Command {
     } else {
       str += '\nYour already maxed! :partying_face:';
     }
-    return message.channel.send(this.client.dialog('Virtual Maxed', str));
+    return message.channel.send(this.client.Dialog('Virtual Maxed', str));
   }
 
   getNumberOf120Skills(skills: Skill[]): Number {
@@ -103,15 +101,17 @@ export default class VMaxedCommand extends Command {
   }
 
   calculateSkillStats(skills: Skill[]): Object {
-    const maxedSkillCount = this.getNumberOf120Skills(skills);
-    const notMaxedSkillCount = skills.length - maxedSkillCount;
-    const percentSkillsMaxed = Math.round((100 * maxedSkillCount) / skills.length);
+    // const maxedSkillCount = this.getNumberOf120Skills(skills);
     const remaining = this.getSkillRemainingXp(skills).map((remainder) => ({
       skillId: remainder.skillId,
       remaining: remainder.remaining,
       max: remainder.max,
       percentTo120: Math.round((100 * remainder.current) / remainder.max),
     }));
+
+    const notMaxedSkillCount = remaining.filter((x) => x.percentTo120 < 100).length;
+    const maxedSkillCount = skills.length - notMaxedSkillCount;
+    const percentSkillsMaxed = Math.round((100 * maxedSkillCount) / skills.length);
     const totalRemainingXp = remaining.map((skill) => skill.remaining).reduce((sum, xp) => sum + xp, 0);
     const totalxpAt120 = TOTAL_XP_AT_ALL_120;
     const totalPercentToMax = Math.round(
@@ -132,6 +132,7 @@ export default class VMaxedCommand extends Command {
     const notMaxed = skills.filter((skill) => skill.level < 120);
     return notMaxed.map((skill) => xpUntil120(skillFromId(skill.id), skill.xp));
   }
+
   calculateSkillGraph(skills): Object {
     const maxedSkillCount = this.getNumberOf120Skills(skills);
     const notMaxedSkillCount = skills.length - maxedSkillCount;

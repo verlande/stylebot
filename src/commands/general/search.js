@@ -72,12 +72,12 @@ export default class SearchCommand extends Command {
 
                 return message.channel.send({ embed });
               } if (body.error === 'PROFILE_PRIVATE') {
-                return message.channel.send(this.client.errorDialog('Error', 'Profile private'));
+                return message.channel.send(this.client.ErrorDialog('Error', 'Profile private'));
               }
             })();
           }
         });
-        // return message.channel.send(this.client.dialog('Search', 'Not a clan member?'));
+        // return message.channel.send(this.client.Dialog('Search', 'Not a clan member?'));
       });
     } catch (e) {
       this.client.logger.error(e);

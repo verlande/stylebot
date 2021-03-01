@@ -34,7 +34,7 @@ export default class CacheCron extends CronModule {
           if (pingChannelId) {
             const pingChannel = this.client.util.resolveChannel(pingChannelId, this.client.channels.cache);
             if (pingChannel) {
-              return pingChannel.send(this.client.dialog('Cache', cache()));
+              return pingChannel.send(this.client.Dialog('Cache', cache()));
             }
           }
         });

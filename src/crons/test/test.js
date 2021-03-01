@@ -47,7 +47,7 @@ export default class NewMemberCron extends CronModule {
             const announceChannel = this.client.util.resolveChannel('754015628599361647', this.client.channels.cache);
             if (announceChannel) {
               const message = await this.client.db.ServerSettings.getSettingForServer(announceChannel.guild.id, 'admin.clanJoinMessage');
-              announceChannel.send(this.client.dialog('New Clan Member!', message.replace(/%user%/gi, `**${e.name}**`)));
+              announceChannel.send(this.client.Dialog('New Clan Member!', message.replace(/%user%/gi, `**${e.name}**`)));
             }
           } catch (e) {
             console.log(e);

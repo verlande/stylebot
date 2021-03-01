@@ -14,7 +14,7 @@ export default class VoiceOfSerenCommand extends Command {
   }
 
   async exec(message: Message): Promise<Message> {
-    return message.channel.send(this.client.dialog('Voice of Seren', await voiceOfSeren()));
+    return message.channel.send(this.client.Dialog('Voice of Seren', await voiceOfSeren()));
   }
 
 }

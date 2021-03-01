@@ -1,4 +1,3 @@
-import { hiscores } from 'runescape-api';
 import go from 'got';
 
 export const getProfile = async (username: string) =>

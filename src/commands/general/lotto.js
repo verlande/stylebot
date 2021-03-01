@@ -45,7 +45,7 @@ export default class LottoCommand extends Command {
           match: 'flag',
           flag: '--clear',
         },
-      ]
+      ],
     });
   }
 
@@ -72,19 +72,19 @@ export default class LottoCommand extends Command {
     } else if (username !== null && add) {
       try {
         await this.lottoDb.create({ name: username });
-        message.channel.send(this.client.dialog('Lotto - Add', `Successfully added ${username}`))
+        message.channel.send(this.client.Dialog('Lotto - Add', `Successfully added ${username}`))
           .then((m) => setTimeout(() => m.delete(), 1500));
         return await this.updateList(message);
       } catch (e) {
         console.log(e);
-        return message.channel.send(this.client.errorDialog('Error', 'Name is already entered or is longer than 25'))
+        return message.channel.send(this.client.ErrorDialog('Error', 'Name is already entered or is longer than 25'))
           .then((m) => setTimeout(() => m.delete(), 3500));
       }
     } else if (username !== null && remove) {
       try {
         await this.lottoDb.destroy({ where: { name: username } });
         await this.updateList(message);
-        return message.channel.send(this.client.dialog('Lotto - Remove', `Removed ${username} from the lotto`))
+        return message.channel.send(this.client.Dialog('Lotto - Remove', `Removed ${username} from the lotto`))
           .then((m) => setTimeout(() => m.delete(), 1500));
       } catch (e) {
         console.log(e);
@@ -93,7 +93,7 @@ export default class LottoCommand extends Command {
       try {
         const entries = await this.getEntries();
         const rand = this.getRandomNumber(null, entries.length);
-        return message.channel.send(this.client.dialog('Lotto - Winner',
+        return message.channel.send(this.client.Dialog('Lotto - Winner',
           `The dice landed on **${rand}**, therefore \`${entries[rand].name}\` is the lotto winner! :tada:\n\nOut of ${entries.length} entries`));
       } catch (e) {
         console.log(e);
@@ -101,7 +101,7 @@ export default class LottoCommand extends Command {
     } else if (username === null && clear) {
       try {
         await this.lottoDb.destroy({ truncate: true });
-        return message.channel.send(this.client.dialog('Lotto - Cleared',
+        return message.channel.send(this.client.Dialog('Lotto - Cleared',
           'Successfully cleared lotto entries')).then((m) => setTimeout(() => m.delete(), 3500));
       } catch (e) {
         console.log(e);
@@ -127,7 +127,7 @@ export default class LottoCommand extends Command {
         .setDescription(names)
         .setThumbnail(this.client.logo)
         .setColor(Constants.Colors.DEFAULT);
-        //.setFooter(`Last updated: ${luxon.DateTime.local().setZone('Europe/London').toISO()}`);
+        // .setFooter(`Last updated: ${luxon.DateTime.local().setZone('Europe/London').toISO()}`);
 
       if (message.channel !== channel) return message.channel.send({ embed });
 
@@ -146,7 +146,7 @@ export default class LottoCommand extends Command {
               return message.channel.send({ embed });
             }
           }).catch((err) => console.log(err));
-        // return message.channel.send(this.client.dialog('Lotto - Entries List', names));
+        // return message.channel.send(this.client.Dialog('Lotto - Entries List', names));
       }
     } catch (e) {
       console.log(e);

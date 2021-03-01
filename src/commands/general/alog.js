@@ -38,10 +38,10 @@ export default class AlogCommand extends Command {
         str += `[${e.date}] ${e.title}\n`;
       });
 
-      return message.channel.send(this.client.dialog(`${username} adventure log`,
+      return message.channel.send(this.client.Dialog(`${username} adventure log`,
         `\`\`\`${str}\`\`\``).setThumbnail(`https://secure.runescape.com/m=avatar-rs/${encodeURI(username)}/chat.png`));
     }).catch((err) => {
-      this.client.logger.error(err); return message.channel.send(this.client.errorDialog('Error', 'Profile private'));
+      this.client.logger.error(err); return message.channel.send(this.client.ErrorDialog('Error', 'Profile private'));
     });
   }
 

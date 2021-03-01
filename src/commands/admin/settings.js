@@ -1,6 +1,6 @@
 import { Command, Message } from 'discord-akairo';
 import { Permissions } from 'discord.js';
-import { get, set, pullAt } from 'lodash';
+import { get, pullAt } from 'lodash';
 
 export default class SettingsCommand extends Command {
 
@@ -43,22 +43,7 @@ export default class SettingsCommand extends Command {
           // case 'admin.leaveMessage':
             return 'string';
           case 'admin.leaveMessages':
-            return (message, phrase) => {
-              return phrase.split(/(--add|--remove)/gsi).map(c => {
-                return c;
-              })
-            };
-            /*          case 'meeting.reminders':
-          case 'jftCron.enabled':
-            return ['true', 'false'];
-          case 'jftCron.channels':
-            return (message, phrase) => {
-                return phrase.split(',').map(c => {
-                  const channel = this.client.util.resolveChannel(c, this.client.channels.cache);
-                  if (channel)
-                      return channel.id;
-              }).filter(c => c !== undefined);
-            }; */
+            return (message, phrase) => phrase.split(/(--add|--remove)/gsi).map((c) => c);
           default:
             return 'string';
 
@@ -116,7 +101,7 @@ export default class SettingsCommand extends Command {
           .map((path) => `  "${path}": ${JSON.stringify(get(this.settings, path))},`);
 
         return message.channel.send(
-          this.client.dialog(
+          this.client.Dialog(
             'Server Settings',
             [
               `*${message.guild.name} (ID: ${message.guild.id})*`,
@@ -163,7 +148,7 @@ export default class SettingsCommand extends Command {
 
     displayError(message, content: String = 'Unknown error.') {
       return message.channel.send(
-        this.client.errorDialog(
+        this.client.ErrorDialog(
           'Error',
           content,
         ),
@@ -172,21 +157,21 @@ export default class SettingsCommand extends Command {
 
     async appendLeaveMessages(message: Message, property: String, value: any): any {
       try {
-        let leaveMessages = await this.db.getSettingForServer(message.guild.id, 'admin.leaveMessages');
+        const leaveMessages = await this.db.getSettingForServer(message.guild.id, 'admin.leaveMessages');
         if (leaveMessages.length > 0 && value.length >= 2) {
           if (value[1].toLowerCase() === '--add') {
             leaveMessages.push(value[2].trimStart());
             await this.db.setSettingForServer(message.guild.id, property, leaveMessages);
             return message.channel.send(`The setting \`${property}\` has been updated, you have added \`${value[2]}\`.`);
-          } else if (value[1].toLowerCase() === '--remove') {
+          } if (value[1].toLowerCase() === '--remove') {
             const removedMsg = leaveMessages[parseInt(value[2].trimStart())];
             pullAt(leaveMessages, parseInt(value[2].trimStart()));
             await this.db.setSettingForServer(message.guild.id, property, leaveMessages);
             return message.channel.send(`The setting \`${property}\` has been updated, you have removed \`${removedMsg}\`.`);
           }
         } else {
-          if (leaveMessages.length > 0) return message.channel.send(leaveMessages.map((x, i) => `**${i}**) \`${x}\`` ));
-          return message.channel.send(this.client.errorDialog('Error', 'No leave messages to display'));
+          if (leaveMessages.length > 0) return message.channel.send(leaveMessages.map((x, i) => `**${i}**) \`${x}\``));
+          return message.channel.send(this.client.ErrorDialog('Error', 'No leave messages to display'));
         }
       } catch (e) {
         console.log(e);
